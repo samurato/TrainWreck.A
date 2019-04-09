@@ -1,5 +1,5 @@
 {
-  "name": "train-wreck",
+  "name": "app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,10 +8,10 @@
     "react-scripts": "2.1.8"
   },
   "scripts": {
-    "start": "npm react-scripts start",
-    "build": "npm react-scripts build",
-    "test": "npm react-scripts test",
-    "eject": "npm react-scripts eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
