@@ -9,7 +9,7 @@ cache:
   - train-wreck/node_modules
 
 script: #execute tests
-- cd frontend
+- cd train-wreck
 - npm install
 - npm test
-  #test for registration process
+  
