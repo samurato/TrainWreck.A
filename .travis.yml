@@ -6,10 +6,10 @@ node_js:
 cache:
   directories:
   - node_modules
-  - train-wreck/node_modules
+  
 
 script: #execute tests
-- cd train-wreck
+
 - npm install
 - npm test
   
