@@ -1,0 +1,15 @@
+language: node_js
+
+node_js:
+- "stable"
+
+cache:
+  directories:
+  - node_modules
+  - train-wreck/node_modules
+
+script: #execute tests
+- cd frontend
+- npm install
+- npm test
+  #test for registration process
