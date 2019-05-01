@@ -1,7 +1,8 @@
-#Professional Studio A  [![Build Status](https://travis-ci.com/samurato/TrainWreck.A.svg?token=q1JpXQyRPWysqsAiDfK3&branch=master)](https://travis-ci.com/samurato/TrainWreck.A)
-##Frontend  in React, Backend in Node.js and AI Training in Python(Tensorflow)
-##This is Frontend of this application. Backend is in https://github.com/samurato/TrainWreck.B
-###Usage:- 
+# Professional Studio A.  [![Build Status](https://travis-ci.com/samurato/TrainWreck.A.svg?token=q1JpXQyRPWysqsAiDfK3&branch=master)](https://travis-ci.com/samurato/TrainWreck.A)
+
+## Frontend  in React, Backend in Node.js and AI Training in Python(Tensorflow)
+## This is Frontend of this application. Backend is in https://github.com/samurato/TrainWreck.B
+### Usage:- 
 ..* Perform Git clone of this repository. 
 `git clone https://github.com/samurato/TrainWreck.A.git`
 
