@@ -28,13 +28,13 @@ class DashBoardScreen extends Component{
     render(){
         return(
 
-            <div>
+
                 <Container style={{ marginTop: '7em' }}>
                     <Header as='h1'>Welcome to Train Wreck.A Dashboard</Header>
                     <Grid stackable>
                         <Grid.Row>
                             <Grid.Column width={4}>
-                                <p>
+
                                     <Statistic>
                                         <Statistic.Value>
                                             <Icon name='train' />
@@ -42,10 +42,10 @@ class DashBoardScreen extends Component{
                                         </Statistic.Value>
                                         <Statistic.Label>Active Trains</Statistic.Label>
                                     </Statistic>
-                                </p>
+
                             </Grid.Column>
                             <Grid.Column width={4}>
-                                <p>
+
                                     <Statistic>
                                         <Statistic.Value>
                                             <Icon name='road' />
@@ -53,10 +53,10 @@ class DashBoardScreen extends Component{
                                         </Statistic.Value>
                                         <Statistic.Label>Active Network</Statistic.Label>
                                     </Statistic>
-                                </p>
+
                             </Grid.Column>
                             <Grid.Column width={4}>
-                                <p>
+
                                     <Statistic>
                                         <Statistic.Value>
                                             <Icon name='alarm' />
@@ -64,10 +64,10 @@ class DashBoardScreen extends Component{
                                         </Statistic.Value>
                                         <Statistic.Label>Alarms</Statistic.Label>
                                     </Statistic>
-                                </p>
+
                             </Grid.Column>
                             <Grid.Column width={4}>
-                                <p>
+
                                     <Statistic>
                                         <Statistic.Value>
                                             <Icon name='stop circle' />
@@ -75,18 +75,18 @@ class DashBoardScreen extends Component{
                                         </Statistic.Value>
                                         <Statistic.Label>Next Stop</Statistic.Label>
                                     </Statistic>
-                                </p>
+
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
                     <br/>
                     <Header as='h1'>Train Status</Header>
 
-                    {   }
+
                     <Grid stackable>
                         <Grid.Row>
                             <Grid.Column width={6}>
-                                <p>
+
                                     <Header as='h4' align = 'center'>Current Route Covered</Header>
 
                                     <Gauge size={300}
@@ -97,10 +97,10 @@ class DashBoardScreen extends Component{
 
                                     />
 
-                                </p>
+
                             </Grid.Column>
                             <Grid.Column width={5}>
-                                <p>
+
                                     <Header as='h4' align = 'center'>Train Speed Km/hr </Header>
 
                                     <ReactSpeedometer
@@ -114,10 +114,10 @@ class DashBoardScreen extends Component{
 
                                     />
 
-                                </p>
+
                             </Grid.Column>
                             <Grid.Column width={5}>
-                                <p>
+
                                     <Header as='h4' align = 'center'>Train acceleration g's</Header>
 
                                     <ReactSpeedometer
@@ -130,7 +130,7 @@ class DashBoardScreen extends Component{
 
 
                                     />
-                                </p>
+
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -181,7 +181,7 @@ class DashBoardScreen extends Component{
                     <p> ATO Automatic Train Operations.</p>
 
                 </Container>
-            </div>
+
 
 
 
