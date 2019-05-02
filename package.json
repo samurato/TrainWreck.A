@@ -3,14 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@progress/kendo-react-gauges": "^2.10.0",
+    "react-d3-speedometer": "^0.5.5",
     "react": "^16.8.6",
-    "react-canvas-gauge": "^1.0.2",
-    "react-d3-guage": "^0.3.7",
     "react-dom": "^16.8.6",
-    "react-gauge-chart": "^0.1.2",
     "react-radial-gauge": "^0.1.1",
-    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "semantic-ui-react": "^0.86.0"
   },
