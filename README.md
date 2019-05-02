@@ -8,7 +8,7 @@
 
 ..* Use yarn as your package manager.
 
-
+..* Use Git Kraken if you are stuck with git cli
 ..* Use Webstorm to work on this project.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
