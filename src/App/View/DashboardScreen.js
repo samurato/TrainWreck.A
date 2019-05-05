@@ -6,7 +6,6 @@ import {
     Statistic,
     Icon,
     Table
-
 }
 
 from 'semantic-ui-react'
@@ -27,8 +26,6 @@ class DashBoardScreen extends Component{
     }
     render(){
         return(
-
-
                 <Container style={{ marginTop: '7em' }}>
                     <Header as='h1'>Welcome to Train Wreck.A Dashboard</Header>
                     <Grid stackable>
@@ -105,7 +102,7 @@ class DashBoardScreen extends Component{
 
                                     <ReactSpeedometer
                                         minValue={0}
-                                        maxValue={400}
+                                        maxValue={80}
                                         startColor={'#2df820'}
                                         endColor={'#f8003a'}
                                         value={(this.state.time%10000)/100}
