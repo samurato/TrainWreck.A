@@ -84,15 +84,31 @@ class DashBoardScreen extends Component{
                         <Grid.Row>
                             <Grid.Column width={6}>
 
-                                    <Header as='h4' align = 'center'>Current Route Covered</Header>
+                                <Table celled>
+                                    <Table.Header>
+                                        <Table.Row>
+                                            <Table.HeaderCell>Sensor</Table.HeaderCell>
+                                            <Table.HeaderCell>Status</Table.HeaderCell>
+                                        </Table.Row>
+                                    </Table.Header>
 
-                                    <Gauge size={300}
-                                           needleBaseColor={'#5550f4'}
-                                           progressWidth={20}
-                                           tickColor={'#f47489'}
-                                           currentValue = {20}
+                                    <Table.Body>
+                                        <Table.Row>
+                                            <Table.Cell>Weather</Table.Cell>
+                                            <Table.Cell>Sunny</Table.Cell>
 
-                                    />
+                                        </Table.Row>
+                                        <Table.Row>
+                                            <Table.Cell>Head Light</Table.Cell>
+                                            <Table.Cell>Off</Table.Cell>
+                                        </Table.Row>
+                                        <Table.Row>
+                                            <Table.Cell>Ventilation</Table.Cell>
+                                            <Table.Cell error>Normal</Table.Cell>
+                                        </Table.Row>
+                                    </Table.Body>
+                                </Table>
+
 
 
                             </Grid.Column>
@@ -105,7 +121,7 @@ class DashBoardScreen extends Component{
                                         maxValue={80}
                                         startColor={'#2df820'}
                                         endColor={'#f8003a'}
-                                        value={(this.state.time%10000)/100}
+                                        value={(this.state.time%10000)/10000}
 
 
 
@@ -132,6 +148,77 @@ class DashBoardScreen extends Component{
                         </Grid.Row>
                     </Grid>
                     <br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <Grid stackable>
+                        <Grid.Row>
+                            <Grid.Column width={6}>
+                                <Statistic>
+                                    <Statistic.Value>
+                                        <Icon name='columns' />
+                                        Door
+                                    </Statistic.Value>
+                                    <Statistic.Label>closed</Statistic.Label>
+                                </Statistic>
+
+
+
+                            </Grid.Column>
+                            <Grid.Column width={5}>
+
+
+
+                                <Statistic>
+                                    <Statistic.Value>
+                                        <Icon name='location arrow' />
+                                        Location
+                                    </Statistic.Value>
+                                    <Statistic.Label>Redfern</Statistic.Label>
+                                </Statistic>
+
+
+
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                    <br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
