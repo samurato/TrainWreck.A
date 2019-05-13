@@ -3,6 +3,7 @@
 import React, {Component} from "react";
 import {Route, Switch} from "react-router-dom";
 import DashboardScreen from './View/DashboardScreen';
+import AdminScreen from './View/AdminScreen'
 
 
 
@@ -14,7 +15,8 @@ class Routes extends Component {
         return (
             <div>
             <Switch>
-                <Route path="/" component={DashboardScreen}/>
+                <Route path='/' component={AdminScreen}/>
+                {/*<Route path='/AdminScreen' component={AdminScreen}/>*/}
             </Switch>
             </div>
         );
