@@ -5,7 +5,7 @@ const config = {
 };
 
 if (process.env.NODE_ENV === 'development') {
-    config.apiEndpont = 'http://localhost:3001/api/v1';
+    config.apiEndpont = 'http://localhost:3001/';
 }
 
 export default config;

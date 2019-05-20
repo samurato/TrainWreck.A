@@ -1,5 +1,6 @@
 import {createAction} from "./CreateAction";
 import users from './users'
+import {getApiClient} from '../../api'
 
 export const AUTH_ACTION = {
     AUTH_LOGIN_START: 'AUTH_LOGIN_START',
@@ -20,13 +21,16 @@ export const AuthAction = {
 };
 
 const login = (username, password) => async (dispatch, getState) => {
-    //const api = getApiClient();
+    const api = getApiClient();
     dispatch(AuthAction.loginStart());
     try {
-        // const me = await api.authService.login(username, password);
-        dispatch(AuthAction.loginSuccess());
-        dispatch(users.getMe());
-        // dispatch(fetchUserProfile());
+        const me = await api.authService.login(username, password);
+        if (me) {
+            dispatch(AuthAction.loginSuccess());
+            dispatch(users.getMe());
+        } else {
+            dispatch(AuthAction.loginFailed({errorMessage: 'Failed to login', error: true}));
+        }
     } catch (error) {
         dispatch(AuthAction.loginFailed({errorMessage: 'Could not login with the provided credentials', error: error}));
         throw error;
@@ -35,10 +39,11 @@ const login = (username, password) => async (dispatch, getState) => {
 
 
 const logout = () => async (dispatch, getState) => {
-    //const api = getApiClient();
+    const api = getApiClient();
     dispatch(AuthAction.logoutStart());
     try {
-        //LOGOUT
+        await api.authService.logout();
+        dispatch(users.removeMe())
         dispatch(AuthAction.logoutSuccess());
     } catch (error) {
         dispatch(AuthAction.logoutFailed({errorMessage: 'Could not login with the provided credentials', error: error}));
