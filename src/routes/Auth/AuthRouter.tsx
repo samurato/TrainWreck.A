@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {Route, Router} from 'react-router'
-import Login from './pages/Login'
+import Login from './pages/LoginPage'
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 

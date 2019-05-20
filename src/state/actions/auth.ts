@@ -1,4 +1,5 @@
 import {createAction} from "./CreateAction";
+import users from './users'
 
 export const AUTH_ACTION = {
     AUTH_LOGIN_START: 'AUTH_LOGIN_START',
@@ -18,14 +19,13 @@ export const AuthAction = {
     logoutSuccess: () => createAction(AUTH_ACTION.AUTH_LOGOUT_FAILED),
 };
 
-export const login = (username, password) => async (dispatch, getState) => {
+const login = (username, password) => async (dispatch, getState) => {
     //const api = getApiClient();
-
     dispatch(AuthAction.loginStart());
-
     try {
         // const me = await api.authService.login(username, password);
         dispatch(AuthAction.loginSuccess());
+        dispatch(users.getMe());
         // dispatch(fetchUserProfile());
     } catch (error) {
         dispatch(AuthAction.loginFailed({errorMessage: 'Could not login with the provided credentials', error: error}));
@@ -34,7 +34,7 @@ export const login = (username, password) => async (dispatch, getState) => {
 };
 
 
-export const logout = () => async (dispatch, getState) => {
+const logout = () => async (dispatch, getState) => {
     //const api = getApiClient();
     dispatch(AuthAction.logoutStart());
     try {
@@ -45,3 +45,8 @@ export const logout = () => async (dispatch, getState) => {
         throw error;
     }
 };
+
+export default {
+    login,
+    logout,
+}

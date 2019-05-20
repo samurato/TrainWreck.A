@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {Form, Button, Message, Header, Segment, Divider, Input} from 'semantic-ui-react';
 import {Field, InjectedFormProps, reduxForm} from 'redux-form';
-import {Link} from 'react-router-dom';
 
 class LoginForm extends React.Component<InjectedFormProps, any> {
     public render() {
@@ -47,7 +46,7 @@ class LoginForm extends React.Component<InjectedFormProps, any> {
                                     loading={submitting}
                                     disabled={submitting}
                                     color="teal"
-                                    content={'Login'}
+                                    content={'LoginPage'}
                             />
                         </Segment>
                     </Segment.Group>
