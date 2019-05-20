@@ -9,8 +9,9 @@ interface ILoginProps {
 
 class LoginPage extends React.Component<ILoginProps> {
 
-    public submitLogin = async (email: string, password: string) => {
-        await this.props.login(email, password);
+    public submitLogin = async (values) => {
+        console.log()
+        await this.props.login(values.email, values.password);
     }
 
     public render() {
