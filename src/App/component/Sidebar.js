@@ -1,9 +1,11 @@
 import React,{Component} from 'react'
 import {
     Container,
-    Dropdown,
     Image,
-    Menu,Button,Modal,Header,Icon
+    Menu,
+    Button,
+    Modal,
+    Icon
 } from 'semantic-ui-react'
 
 import logo from './train.svg'
@@ -13,14 +15,45 @@ const options = [
     {key:'user', text: 'Create User', value:'user'}
 ]
 
-class HeaderComponent extends Component {
-    state = {modalOpen: false}
-
+class SidebarComponent extends Component {
+    state = {modalOpen: false, activePage: 'trains'}
+   
     handleOpen = () => this.setState({modalOpen: true})
-
     handleClose = () => this.setState({modalOpen: false})
+    
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
     render() {
+      const {activePage} = this.state.activePage;
+      
+      return (
+        <Menu ui vertical labeled icon fluid>
+          <Menu.Item
+            name='trains'
+            active={activePage === 'trains'}
+            onClick={this.handleItemClick}
+          >
+            <Icon name='train' /> Trains
+          </Menu.Item>
+          <Menu.Item
+            name='users'
+            active={activePage === 'users'}
+            onClick={this.handleItemClick}
+          >
+            <Icon name='user' /> Users
+          </Menu.Item>
+          <Menu.Item
+            name='logout'
+            active={activePage === 'logout'}
+            onClick={this.handleItemClick}
+            style={{bottom: '0px'}}
+          >
+            <Icon name='power' /> Logout
+          </Menu.Item>
+        </Menu>
+      );
+      
+      /*
         return (
             <div>
                 <Menu fixed='top' inverted>
@@ -47,7 +80,7 @@ class HeaderComponent extends Component {
                         </Dropdown.Item>
                         <Dropdown.Item>List Item</Dropdown.Item>
                     </Dropdown.Menu>
-                </Dropdown>*/}
+                </Dropdown>}
                         <Menu.Menu position='right'>
                             <Menu.Item
                                 name='Frank'
@@ -79,9 +112,9 @@ class HeaderComponent extends Component {
                 </Menu>
             </div>
 
-        );
+        );*/
     }
 }
 
 
-export default HeaderComponent;
+export default SidebarComponent;

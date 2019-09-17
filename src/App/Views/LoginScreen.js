@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
-import logo from '../component/underground.svg'
+import logo from '../component/logo.svg'
 const LoginScreen = () => (
     <div className='login-form'>
         {/*

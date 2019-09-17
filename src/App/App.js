@@ -1,28 +1,33 @@
 import React, { Component, Fragment } from 'react';
-//import logo from '../logo.svg';
 import './App.css';
-import {BrowserRouter} from "react-router-dom";
-import Routes from "./routes.js";
-import Header from "./component/Header"
-import Footer from "./component/Footer"
+import {BrowserRouter} from 'react-router-dom';
+import logo from './component/logo.svg';
+import Routes from './routes.js';
+import Sidebar from './component/Sidebar';
+import Footer from './component/Footer';
 
-
+function Pane(props) {
+  return <div className={"pane " + props.name}>{props.component}</div>;
+}
 
 class App extends Component {
   render() {
     return (
-
-     <BrowserRouter>
-    <Fragment>
-    <Header/>
-    <Routes/>
-    <Footer/>
-    </Fragment>
-  </BrowserRouter>
-
-
-        );
+      <BrowserRouter>
+        <Fragment>
+          <div id='App'>
+            <Pane name="logoPane" component={<a href="/" className="noselect">TSC</a>} />
+            <Pane name="sidePane" component={<Sidebar />} />
+            <div className='mainPane'>
+              <Routes />
+            </div>
+            <div className='footerPane'>
+              <Footer/>
+            </div>
+          </div>
+        </Fragment>
+      </BrowserRouter>
+    );
   }
 }
-
 export default App;

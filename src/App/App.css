@@ -1,4 +1,131 @@
-.App {
+::-webkit-scrollbar {
+  width: 30px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+  background-color: rgba(255,255,255,0.87);
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+/* https://material.io/design/color/dark-theme.html */
+#App {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  display: grid;
+  grid-template-rows: 50px auto 20px;
+  grid-template-columns: 74px auto;
+  height: 100%;
+  width: 100%;
+  font-size: 10pt;
+}
+
+#App .logoPane {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#App .logoPane a {
+  font-size: 2em;
+  font-style: italic;
+  font-family: Courier;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: rgb(232,232,82) !important;
+}
+
+#App .sidePane {
+  grid-row-start: 2;
+  grid-row-end: 4;
+}
+
+#App .footerPane {
+  grid-column-start: 2;
+  text-align: center;
+  font-size: 0.8em;
+  color: #888;
+}
+
+#App .mainPane {
+  grid-row-start: 1;
+  grid-row-end: 3;
+  overflow: auto;
+}
+
+#App .pane {
+  background-color: #313131;
+  position: relative;
+}
+
+#App .pane .menu a.item:last-of-type {
+  position: absolute;
+}
+
+#App .pane .menu {
+  background: transparent;
+}
+
+#App a {
+  color: rgba(232,232,0,0.70) !important;
+}
+
+#App a:hover {
+  color: rgb(232,232,82) !important;
+}
+
+#App .pane .menu a.item {
+  color: rgba(255,255,255,1) !important;
+}
+
+#App .pane .menu a.item:hover {
+  color: rgba(232,232,0,0.70) !important;
+}
+
+
+
+.App .rowMain {
+  flex-grow: 100;
+}
+
+.App .logoPane {
+  
+}
+
+.App .topPane {
+  
+}
+
+.App .sidePane {
+  
+}
+
+.App .mainPane {
+  
+}
+
+.App.1dp {background-color: rgba(255,255,255,0.5)}
+.App.2dp {background-color: rgba(255,255,255,0.2)}
+.App.3dp {background-color: rgba(255,255,255,0.1)}
+.App.4dp {background-color: rgba(255,255,255,0.1)}
+.App.5dp {background-color: rgba(255,255,255,0.1)}
+
+.text.high_emphasis {color: rgba(255,255,255,0.87)}
+.text.hint {color: rgba(255,255,255,0.60)}
+.text.disabled {color: rgba(255,255,255,0.38)}
+
+/*.App {
   text-align: center;
 }
 
@@ -30,4 +157,6 @@
   to {
     transform: rotate(360deg);
   }
-}
+}*/
+
+
