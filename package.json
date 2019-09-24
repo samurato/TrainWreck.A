@@ -10,6 +10,7 @@
     "react-radial-gauge": "^0.1.1",
     "react-router-dom": "latest",
     "react-scripts": "2.1.8",
+    "semantic-ui": "2.4.2",
     "semantic-ui-react": "^0.86.0"
   },
   "scripts": {
@@ -26,8 +27,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "react-d3-speedometer": "^0.5.5"
-  }
+  ]
 }
