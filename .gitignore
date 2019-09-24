@@ -24,3 +24,4 @@ yarn-error.log*
 
 #Deployment conflicts solution
 .package.lock.json
+package-lock.json

@@ -6,14 +6,10 @@ import {
     Statistic,
     Icon,
     Table
-
-}
-
-from 'semantic-ui-react'
+} from 'semantic-ui-react'
 import Gauge from 'react-radial-gauge';
-import ReactSpeedometer from "react-d3-speedometer"
-
-
+import ReactSpeedometer from "react-d3-speedometer";
+import Weather from '../component/Weather';
 
 class DashBoardScreen extends Component{
     constructor(props){
@@ -26,10 +22,67 @@ class DashBoardScreen extends Component{
         clearInterval(this.interval);
     }
     render(){
+      return(
+        <div className="mainPane">
+          <div className="topBar pane">
+            <span className="title">Dashboard</span>
+            <Weather />
+          </div>
+          <Grid stackable>
+                        <Grid.Row>
+                            <Grid.Column width={4}>
+
+                                    <Statistic>
+                                        <Statistic.Value>
+                                            <Icon name='train' />
+                                            20
+                                        </Statistic.Value>
+                                        <Statistic.Label>Active Trains</Statistic.Label>
+                                    </Statistic>
+
+                            </Grid.Column>
+                            <Grid.Column width={4}>
+
+                                    <Statistic>
+                                        <Statistic.Value>
+                                            <Icon name='road' />
+                                            10
+                                        </Statistic.Value>
+                                        <Statistic.Label>Active Network</Statistic.Label>
+                                    </Statistic>
+
+                            </Grid.Column>
+                            <Grid.Column width={4}>
+
+                                    <Statistic>
+                                        <Statistic.Value>
+                                            <Icon name='alarm' />
+                                            0
+                                        </Statistic.Value>
+                                        <Statistic.Label>Alarms</Statistic.Label>
+                                    </Statistic>
+
+                            </Grid.Column>
+                            <Grid.Column width={4}>
+
+                                    <Statistic>
+                                        <Statistic.Value>
+                                            <Icon name='stop circle' />
+                                            Petersham
+                                        </Statistic.Value>
+                                        <Statistic.Label>Next Stop</Statistic.Label>
+                                    </Statistic>
+
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+        </div>
+      );
+        /*
         return(
 
-
                 <Container style={{ marginTop: '7em' }}>
+
                     <Header as='h1'>Welcome to Train Wreck.A Dashboard</Header>
                     <Grid stackable>
                         <Grid.Row>
@@ -185,7 +238,7 @@ class DashBoardScreen extends Component{
 
 
 
-        );
+        );*/
     }
 
 }

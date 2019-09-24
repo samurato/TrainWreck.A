@@ -25,13 +25,14 @@ class SidebarComponent extends Component {
 
     render() {
       const {activePage} = this.state.activePage;
-      
+      console.log({activePage});
+
       return (
         <Menu ui vertical labeled icon fluid>
           <Menu.Item
             name='trains'
             active={activePage === 'trains'}
-            onClick={this.handleItemClick}
+            href="/dashboard"
           >
             <Icon name='train' /> Trains
           </Menu.Item>

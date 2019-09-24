@@ -7,7 +7,7 @@ import Sidebar from './component/Sidebar';
 import Footer from './component/Footer';
 
 function Pane(props) {
-  return <div className={"pane " + props.name}>{props.component}</div>;
+  return <div className={'pane ' + props.name}>{props.component}</div>;
 }
 
 class App extends Component {
@@ -18,9 +18,7 @@ class App extends Component {
           <div id='App'>
             <Pane name="logoPane" component={<a href="/" className="noselect">TSC</a>} />
             <Pane name="sidePane" component={<Sidebar />} />
-            <div className='mainPane'>
-              <Routes />
-            </div>
+            <Routes />
             <div className='footerPane'>
               <Footer/>
             </div>
