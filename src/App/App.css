@@ -20,7 +20,6 @@
                                   supported by Chrome and Opera */
 }
 
-/* https://material.io/design/color/dark-theme.html */
 #App {
   background-color: #1a1a1a;
   color: #ffffff;
@@ -64,15 +63,28 @@
   overflow: auto;
 }
 
+#App .mainPane .container {
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+
 #App .topBar {
   height: 50px;
   font-size: 1.5em;
-  display: flex;
-  align-items: center;
   padding: 0px 1em;
 }
 
-#App .pane {
+#App .topBar, #App .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#App .topBar .weather {
+  font-size: 0.9em;
+}
+
+#App .pane, #App .segment {
   background-color: #313131;
   position: relative;
 }
@@ -85,19 +97,19 @@
   background: transparent;
 }
 
-#App a {
+/*#App a {
   color: rgba(232,232,0,0.70) !important;
 }
 
 #App a:hover {
   color: rgb(232,232,82) !important;
-}
+}*/
 
-#App .pane .menu a.item {
+#App .pane .menu .item {
   color: rgba(255,255,255,1) !important;
 }
 
-#App .pane .menu a.item:hover {
+#App .pane .menu .item:hover {
   color: rgba(232,232,0,0.70) !important;
 }
 
@@ -105,69 +117,7 @@
   color: white !important;
 }
 
-
-.App .rowMain {
-  flex-grow: 100;
-}
-
-.App .logoPane {
-  
-}
-
-.App .topPane {
-  
-}
-
-.App .sidePane {
-  
-}
-
-.App .mainPane {
-  
-}
-
-.App.1dp {background-color: rgba(255,255,255,0.5)}
-.App.2dp {background-color: rgba(255,255,255,0.2)}
-.App.3dp {background-color: rgba(255,255,255,0.1)}
-.App.4dp {background-color: rgba(255,255,255,0.1)}
-.App.5dp {background-color: rgba(255,255,255,0.1)}
-
-.text.high_emphasis {color: rgba(255,255,255,0.87)}
-.text.hint {color: rgba(255,255,255,0.60)}
-.text.disabled {color: rgba(255,255,255,0.38)}
-
-/*.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#App .space-between {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: 
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}*/
-
-

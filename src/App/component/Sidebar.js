@@ -3,6 +3,7 @@ import {
     Menu,
     Icon
 } from 'semantic-ui-react'
+import {Link} from 'react-router-dom';
 
 //import logo from './train.svg'
 
@@ -25,13 +26,13 @@ class SidebarComponent extends Component {
 
       return (
         <Menu ui vertical labeled icon fluid>
-          <Menu.Item
-            name='trains'
-            active={activePage === 'trains'}
-            href="/dashboard"
-          >
+          <Link to="/">
+            <Menu.Item
+              name='trains'
+              active={activePage === 'trains'}>
             <Icon name='train' /> Trains
-          </Menu.Item>
+            </Menu.Item>
+          </Link>
           <Menu.Item
             name='users'
             active={activePage === 'users'}

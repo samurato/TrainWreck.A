@@ -1,10 +1,6 @@
 import React, {Component} from 'react'
-import {
-    Container,
-    Grid,
-    Statistic,
-    Icon
-} from 'semantic-ui-react'
+import * as Data from '../data.js';
+import {Container, Grid, Statistic, Icon} from 'semantic-ui-react'
 //import Gauge from 'react-radial-gauge';
 //import ReactSpeedometer from "react-d3-speedometer";
 import Weather from '../component/Weather';
@@ -19,63 +15,56 @@ class DashBoardScreen extends Component{
     componentWillUnmount() {
         clearInterval(this.interval);
     }
+
     render(){
+      let currentTrainID = window.location.hash.substr(1);
+      let currentTrainInfo = Data.TrainsData[currentTrainID];
+
       return(
         <div className="mainPane">
+
           <div className="topBar pane">
-            <span className="title">Dashboard</span>
+            <span className="title">{currentTrainInfo.name}</span>
             <Weather />
           </div>
+
           <Container>
             <Grid stackable>
-                        <Grid.Row>
-                            <Grid.Column width={4}>
+              <Grid.Row>
 
-                                    <Statistic>
-                                        <Statistic.Value>
-                                            <Icon name='train' />
-                                            20
-                                        </Statistic.Value>
-                                        <Statistic.Label>Active Trains</Statistic.Label>
-                                    </Statistic>
+                <Grid.Column width={10}>
+                  <Statistic>
+                    <Statistic.Value>
+                      <Icon name='train' /> {currentTrainInfo.name}
+                    </Statistic.Value>
+                  </Statistic>
+                </Grid.Column>
 
-                            </Grid.Column>
-                            <Grid.Column width={4}>
+                <Grid.Column width={4}>
+                  <Statistic>
+                    <Statistic.Value>
+                      <Icon name='alarm' /> 0
+                    </Statistic.Value>
+                    <Statistic.Label>Alarms</Statistic.Label>
+                  </Statistic>
+                </Grid.Column>
 
-                                    <Statistic>
-                                        <Statistic.Value>
-                                            <Icon name='road' />
-                                            10
-                                        </Statistic.Value>
-                                        <Statistic.Label>Active Network</Statistic.Label>
-                                    </Statistic>
+              </Grid.Row>
+              <Grid.Row>
 
-                            </Grid.Column>
-                            <Grid.Column width={4}>
+                <Grid.Column width={7}>
+                  <Statistic>
+                    <Statistic.Value>
+                      <Icon name='road' /> {currentTrainInfo.route}
+                    </Statistic.Value>
+                    <Statistic.Label>Route</Statistic.Label>
+                  </Statistic>
+                </Grid.Column>
 
-                                    <Statistic>
-                                        <Statistic.Value>
-                                            <Icon name='alarm' />
-                                            0
-                                        </Statistic.Value>
-                                        <Statistic.Label>Alarms</Statistic.Label>
-                                    </Statistic>
+              </Grid.Row>
+            </Grid>
+          </Container>
 
-                            </Grid.Column>
-                            <Grid.Column width={4}>
-
-                                    <Statistic>
-                                        <Statistic.Value>
-                                            <Icon name='stop circle' />
-                                            Petersham
-                                        </Statistic.Value>
-                                        <Statistic.Label>Next Stop</Statistic.Label>
-                                    </Statistic>
-
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Container>
         </div>
       );
         /*

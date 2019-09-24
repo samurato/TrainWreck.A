@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { Icon } from 'semantic-ui-react';
 
 const Weather = () => (
-            <span className="weather">
-            Sunny, 31 &deg; C
-            </span>
+  <span className="weather">
+    <Icon name="sun" color="yellow" /> 
+    Sunny, 31 &deg; C
+  </span>
 );
 
 export default Weather;

@@ -1,275 +1,79 @@
-import React,{Component} from 'react'
-import {Tab, Container, Table, Header, Menu} from 'semantic-ui-react'
-
-const panes = [
-    { menuItem: 'Users', render: () => <Tab.Pane >
-            <Table >
-
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell><Header as ='h2'>Name</Header></Table.HeaderCell>
-                        <Table.HeaderCell><Header as ='h2'>Role </Header></Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-
-                <Table.Body>
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-                                <Header.Content>
-                                    001
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header>T1</Header> </Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4' >
-
-                                <Header.Content>
-                                    0002
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>T3</Header.Subheader></Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Ben
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Head Driver</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Shadia
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Controller</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Manjusha
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Driver</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Doro
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Controller</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Frank
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Driver</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Phong
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Admin</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-
-
-                </Table.Body>
-            </Table>
-
-
-
-
-
-
-
-
-    </Tab.Pane> },
-    { menuItem: 'Train', render: () => <Tab.Pane>
-            <Table>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>ID </Table.HeaderCell>
-                        <Table.HeaderCell>Network</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-
-                <Table.Body>
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-                                <Header.Content>
-                                    Vikesh
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header>Senior Controller</Header></Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4' >
-
-                                <Header.Content>
-                                    Chetna
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Head Driver</Header.Subheader></Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Ben
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Head Driver</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Shadia
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Controller</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Manjusha
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Driver</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Doro
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Controller</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Frank
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Driver</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-                    <Table.Row>
-                        <Table.Cell>
-                            <Header as='h4'>
-
-                                <Header.Content>
-                                    Phong
-
-                                </Header.Content>
-                            </Header>
-                        </Table.Cell>
-                        <Table.Cell><Header.Subheader>Admin</Header.Subheader></Table.Cell>
-                    </Table.Row>
-
-
-
-                </Table.Body>
-            </Table>
-
-
-
-
-
-
-        </Tab.Pane> },
-    ]
+import React, {Component, props} from 'react';
+import {Link} from 'react-router-dom';
+import * as Data from '../data.js';
+import {Tab, Container, Header, Grid, Segment, Button, Icon} from 'semantic-ui-react';
+import Weather from '../component/Weather';
 
 class AdminDashboardScreen extends Component {
-    render(){
-        return(
+  /*constructor(props){
+    super(props);
+    this.state = {
+      unused_train_data: [
+        { key: 1, name: 'Train #1', route: 'Inner City', line: "T2" }
+      ]
+    };
+  }*/
 
-            <Container align = 'right' style = {{marginTop: '6em'}}>
-                <Menu.Menu position='right'>
-                    <div className='ui right aligned category search item'>
-                        <div className='ui transparent icon input'>
-                            <input className='prompt' type='text' placeholder='Search Train or users' />
-                            <i className='search link icon' />
-                        </div>
-                        <div className='results' />
-                    </div>
-                </Menu.Menu>
-            <Tab panes = {panes}/>
+  render(){
+    return(
+      <div className="mainPane">
+        <div className="topBar pane">
+          <span className="title">Dashboard</span>
+          <Weather />
+        </div>
 
-            </Container>
+        <Container>
+          <p>Welcome back, {Data.UserLoggedOn}.</p>
 
-        );
-    }
+          <Header>
+            Active trains: {Data.TrainsData.length} 
+            { Data.UserPermissions === "Administrator" ? 
+              <Button inverted color="blue">
+                <Icon name="add" />
+                Add Trains
+              </Button> 
+            : "" }
+          </Header>
+
+          <div>
+            {Data.TrainsData.map((data, index) => (
+              <TrainSummary
+                id={data.id}
+                line={data.line}
+                name={data.name}
+                route={data.route} />
+            ))}
+          </div>
+
+        </Container>
+      </div>
+    );
+  }
 }
 
+function TrainSummary(data) {
+  return (
+    <Segment className={data.id}>
+      <Grid columns={3} divided>
+        <Grid.Column width={3} verticalAlign="middle">
+          <h4>
+            {data.line}
+          </h4>
+        </Grid.Column>
+        <Grid.Column width={4}>
+          <h4>
+            {data.name}
+          </h4>
+          {data.route}
+        </Grid.Column>
+        <Grid.Column>
+        </Grid.Column>
+        <Grid.Column width={3} verticalAlign="middle" textAlign="right">
+          <Link to={"/dashboard#" + data.id}><Button inverted color="yellow">View</Button></Link>
+        </Grid.Column>
+      </Grid>
+    </Segment>
+  );
+}
 
-export default AdminDashboardScreen
+export default AdminDashboardScreen;
