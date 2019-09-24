@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment,Grid,Header,Button,Icon } from 'semantic-ui-react'
+import { Grid,Header,Button,Icon } from 'semantic-ui-react'
 
 let data = 'Jon Doe';
 let trainData = '001';
@@ -7,19 +7,19 @@ let UserStatus = 'Y';
 let UserRole = 'Driver'
 
  class AdminUserScreen extends Component {
-    state = { activeItem: 'home' }
+    //state = { activeItem: 'home' }
 
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+    //handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
     render() {
-        const { activeItem } = this.state
+        // const { activeItem } = this.state
 
         return (
             <div>
                 <Grid stackable style={{ marginTop: '7em', marginLeft: '3em' }}>
                     <Grid.Row>
                     <Grid.Column width ={5} >
-                    <img src='https://react.semantic-ui.com/images/avatar/large/rachel.png' height={200} />
+                    
                     </Grid.Column>
                     <Grid.Column width = {6} >
                         <Grid.Row>

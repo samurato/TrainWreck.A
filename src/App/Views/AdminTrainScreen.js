@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
-import { Segment,Grid,Header,Button,Icon,Image } from 'semantic-ui-react'
-import {Train} from "../component/train.svg"
+import { Grid,Header,Button,Icon,Image } from 'semantic-ui-react'
+//import {Train} from "../component/train.svg"
 
 let data = '001';
 let trainData = 'Redfern';
 let UserStatus = 'Y';
-let UserRole = 'Driver'
+//let UserRole = 'Driver'
 
 class AdminTrainScreen extends Component {
-    state = { activeItem: 'home' }
+    //state = { activeItem: 'home' }
 
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+    //handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
     render() {
-        const { activeItem } = this.state
+        //const { activeItem } = this.state
 
         return (
             <div>

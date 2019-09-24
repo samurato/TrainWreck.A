@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import './App.css';
 import {BrowserRouter} from 'react-router-dom';
-import logo from './component/logo.svg';
+//import logo from './component/logo.svg';
 import Routes from './routes.js';
 import Sidebar from './component/Sidebar';
 import Footer from './component/Footer';

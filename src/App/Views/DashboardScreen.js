@@ -2,20 +2,18 @@ import React, {Component} from 'react'
 import {
     Container,
     Grid,
-    Header,
     Statistic,
-    Icon,
-    Table
+    Icon
 } from 'semantic-ui-react'
-import Gauge from 'react-radial-gauge';
-import ReactSpeedometer from "react-d3-speedometer";
+//import Gauge from 'react-radial-gauge';
+//import ReactSpeedometer from "react-d3-speedometer";
 import Weather from '../component/Weather';
 
 class DashBoardScreen extends Component{
     constructor(props){
         super(props);
         this.state = { time: Date.now() };
-    }componentDidMount() {
+    } componentDidMount() {
         this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
     }
     componentWillUnmount() {
@@ -28,7 +26,8 @@ class DashBoardScreen extends Component{
             <span className="title">Dashboard</span>
             <Weather />
           </div>
-          <Grid stackable>
+          <Container>
+            <Grid stackable>
                         <Grid.Row>
                             <Grid.Column width={4}>
 
@@ -76,6 +75,7 @@ class DashBoardScreen extends Component{
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
+                </Container>
         </div>
       );
         /*

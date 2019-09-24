@@ -1,19 +1,15 @@
 import React,{Component} from 'react'
 import {
-    Container,
-    Image,
     Menu,
-    Button,
-    Modal,
     Icon
 } from 'semantic-ui-react'
 
-import logo from './train.svg'
+//import logo from './train.svg'
 
-const options = [
-    {key:'train', text: 'Create Train', value:'train'},
-    {key:'user', text: 'Create User', value:'user'}
-]
+//const options = [
+//    {key:'train', text: 'Create Train', value:'train'},
+//    {key:'user', text: 'Create User', value:'user'}
+//]
 
 class SidebarComponent extends Component {
     state = {modalOpen: false, activePage: 'trains'}
