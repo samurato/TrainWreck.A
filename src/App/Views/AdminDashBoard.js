@@ -1,6 +1,7 @@
 import React, {Component, props} from 'react';
 import {Link} from 'react-router-dom';
 import * as Data from '../data.js';
+//import * as DataTest from '../dataTest.js';
 import {Tab, Container, Header, Grid, Segment, Button, Icon} from 'semantic-ui-react';
 import Weather from '../component/Weather';
 
@@ -14,7 +15,44 @@ class AdminDashboardScreen extends Component {
     };
   }*/
 
+  constructor(props){
+    super(props);
+    this.state = { 
+    items : []
+    //username = "root@mail.com";
+    //password= "thecakeisalie";
+    }
+  }
+  //var headers = new Headers();
+
+ 
+  //headers.append('Authorization', 'Basic ' + base64.encode(username + ":" + password));
+
+componentDidMount() {
+  fetch('http://172.19.126.129/api/users', {
+    headers: {
+      method: 'GET',
+      mode: 'no-cors',
+      withCredentials: true,
+      credentials: 'include',
+      'Authorization': Data.bearer
+    }
+  })
+  .then( res =>
+    res.json()
+    
+    )
+  .then((response) => {
+    console.log(response)
+    this.setState({ items: response.users })
+  })
+  .catch(console.log)
+
+  //console.log(items)
+}
+
   render(){
+    const{items} = this.state;
     return(
       <div className="mainPane">
         <div className="topBar pane">
@@ -35,7 +73,7 @@ class AdminDashboardScreen extends Component {
             : "" }
           </Header>
 
-          <div>
+          <ul>
             {Data.TrainsData.map((data, index) => (
               <TrainSummary
                 id={data.id}
@@ -43,6 +81,17 @@ class AdminDashboardScreen extends Component {
                 name={data.name}
                 route={data.route} />
             ))}
+          </ul>
+
+          
+          <div>
+          {items.map(item => (
+            <li key={item.name}>
+              <p>role: {item.role} </p>
+              <p>name: {item.name} </p>
+              <p>email: {item.email} </p>
+            </li>
+          ))}
           </div>
 
         </Container>
