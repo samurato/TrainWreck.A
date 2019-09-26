@@ -1,7 +1,8 @@
 import React,{Component} from 'react'
 import {
     Menu,
-    Icon
+    Icon,
+    Segment
 } from 'semantic-ui-react'
 import {Link} from 'react-router-dom';
 
@@ -29,6 +30,7 @@ class SidebarComponent extends Component {
             <Icon name='train' /> Trains
             </Menu.Item>
           </Link>
+
           <Link to="/users" name="users" onClick={this.handleMenuClick}>
             <Menu.Item
               active={this.state.activePage === 'users'}
@@ -36,13 +38,32 @@ class SidebarComponent extends Component {
               <Icon name='user' /> Users
             </Menu.Item>
           </Link>
-          <Menu.Item
+          
+            <Link to="/login" name="Logout" onClick={this.handleMenuClick} >
+              <Menu.Item
+                
+                active={this.state.activePage === 'login'}
+                
+              >
+                <Icon name='power' style={{marginTop: '45rem'}}/> logout
+              </Menu.Item>
+            </Link>
+
+          {/* <Menu.Item
+            
             name='logout'
-            onClick='/Logout'
+            
+            onClick= {this.handleMenuClick}
+            to = "/login"
+
+
             style={{bottom: '0px'}}
           >
             <Icon name='power' /> Logout
-          </Menu.Item>
+          </Menu.Item> */}
+
+
+
         </Menu>
       );
       
