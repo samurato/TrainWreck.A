@@ -1,4 +1,4 @@
-::-webkit-scrollbar {
+  ::-webkit-scrollbar {
   width: 30px;
 }
 ::-webkit-scrollbar-thumb {
@@ -96,6 +96,18 @@
 #App .pane .menu {
   background: transparent;
 }
+
+#App .pane .menu .active {
+  background-color: #222222;
+}
+
+#App .mainPane .UserSummary .segment {
+  margin: 1em;
+  width: 30%;
+  float: left;
+}
+
+
 
 /*#App a {
   color: rgba(232,232,0,0.70) !important;

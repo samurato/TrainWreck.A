@@ -13,37 +13,32 @@ import {Link} from 'react-router-dom';
 //]
 
 class SidebarComponent extends Component {
-    state = {modalOpen: false, activePage: 'trains'}
-   
-    handleOpen = () => this.setState({modalOpen: true})
-    handleClose = () => this.setState({modalOpen: false})
-    
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+    state = {activePage: 'trains'}
+
+    handleMenuClick = (e) => {
+      var clickedName = e.target.parentNode.name || e.target.parentNode.parentNode.name;
+      this.setState({activePage: clickedName});
+    } 
 
     render() {
-      const {activePage} = this.state.activePage;
-      console.log({activePage});
-
       return (
         <Menu ui vertical labeled icon fluid>
-          <Link to="/">
+          <Link to="/" name="trains" onClick={this.handleMenuClick}>
             <Menu.Item
-              name='trains'
-              active={activePage === 'trains'}>
+              active={this.state.activePage === 'trains'}>
             <Icon name='train' /> Trains
             </Menu.Item>
           </Link>
-          <Menu.Item
-            name='users'
-            active={activePage === 'users'}
-            onClick={this.handleItemClick}
-          >
-            <Icon name='user' /> Users
-          </Menu.Item>
+          <Link to="/users" name="users" onClick={this.handleMenuClick}>
+            <Menu.Item
+              active={this.state.activePage === 'users'}
+            >
+              <Icon name='user' /> Users
+            </Menu.Item>
+          </Link>
           <Menu.Item
             name='logout'
-            active={activePage === 'logout'}
-            onClick={this.handleItemClick}
+            onClick='/Logout'
             style={{bottom: '0px'}}
           >
             <Icon name='power' /> Logout
