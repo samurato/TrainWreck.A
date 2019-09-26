@@ -1,8 +1,9 @@
 import React,{Component} from 'react'
 import {
     Menu,
-    Icon,
-    Segment
+    Icon,Grid,
+    Segment,
+    GridColumn
 } from 'semantic-ui-react'
 import {Link} from 'react-router-dom';
 
@@ -23,14 +24,19 @@ class SidebarComponent extends Component {
 
     render() {
       return (
+        
+
         <Menu ui vertical labeled icon fluid>
+          <Grid columns={1} padded='vertically'>
+            <Grid.Column>
           <Link to="/" name="trains" onClick={this.handleMenuClick}>
             <Menu.Item
               active={this.state.activePage === 'trains'}>
             <Icon name='train' /> Trains
             </Menu.Item>
           </Link>
-
+          </Grid.Column>
+           <Grid.Column>
           <Link to="/users" name="users" onClick={this.handleMenuClick}>
             <Menu.Item
               active={this.state.activePage === 'users'}
@@ -38,17 +44,21 @@ class SidebarComponent extends Component {
               <Icon name='user' /> Users
             </Menu.Item>
           </Link>
-          
-            <Link to="/login" name="Logout" onClick={this.handleMenuClick} >
+          </Grid.Column>
+          <Grid.Column style = {{marginTop: '40rem'}}>
+            <Link to="/login" name="Logout" onClick={this.handleMenuClick}>
               <Menu.Item
                 
                 active={this.state.activePage === 'login'}
                 
               >
-                <Icon name='power' style={{marginTop: '45rem'}}/> logout
+                
+                <Icon name='power' /> logout
+                
+                
               </Menu.Item>
             </Link>
-
+          
           {/* <Menu.Item
             
             name='logout'
@@ -62,9 +72,10 @@ class SidebarComponent extends Component {
             <Icon name='power' /> Logout
           </Menu.Item> */}
 
-
-
+           </Grid.Column>
+           </Grid>
         </Menu>
+        
       );
       
       /*
