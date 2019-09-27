@@ -13,20 +13,27 @@ import NotFound from './Views/NotFound'
 class Routes extends Component {
   render()
   {
-    console.log(this.props);
-    return (
-      <Switch>
-        <Route exact path="/" component={AdminDashBoardScreen} />
-        <Route exact path="/login" component={LoginScreen} />
-        <Route exact path="/dashboard" component={DashboardScreen} />
-        <Route exact path="/users" component={AdminUserScreen} />
-        <Route exact path="/CreateUser" component={CreateUserScreen} />
-        <Route exact path="/CreateTrain" component={CreateTrainScreen} />
-        <Route exact path="/AdminTrainScreen" component={AdminTrainScreen} />
-        <Route exact path="/Sensor" component={SensorReadingScreen} />
-        <Route component={NotFound}/>
-      </Switch>
-    );
+    if (localStorage.getItem('token')) {
+      return (
+        <Switch>
+          <Route exact path="/" component={AdminDashBoardScreen} />
+          <Route exact path="/login" component={LoginScreen} />
+          <Route exact path="/dashboard" component={DashboardScreen} />
+          <Route exact path="/users" component={AdminUserScreen} />
+          <Route exact path="/CreateUser" component={CreateUserScreen} />
+          <Route exact path="/CreateTrain" component={CreateTrainScreen} />
+          <Route exact path="/AdminTrainScreen" component={AdminTrainScreen} />
+          <Route exact path="/Sensor" component={SensorReadingScreen} />
+          <Route component={NotFound}/>
+        </Switch>
+      );
+    } else {
+      return (
+        <Switch>
+          <Route component={LoginScreen} />
+        </Switch>
+      )
+    }
   }
 }
 export default Routes;

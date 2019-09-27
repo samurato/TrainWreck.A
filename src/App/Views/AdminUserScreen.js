@@ -9,13 +9,26 @@ let UserStatus = 'Y';
 let UserRole = 'Driver'
 
  class AdminUserScreen extends Component {
-    //state = { activeItem: 'home' }
+  async getMe () {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const response = await fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
-    //handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+      const msg = await response.json();
+      if (response.ok) {
+        document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode(JSON.stringify(msg)));
+      } else {
+          console.log(`Failed to authenticate: ${msg.error}`);
+      }
+    }
+  }
 
   render() {
-      // const { activeItem } = this.state
-
     return (
       <div className="mainPane">
 
@@ -42,7 +55,11 @@ let UserRole = 'Driver'
               </Segment>
             ))}
             </div>
+
+
+              <Button onClick={() => this.getMe()}>Get My Profile</Button>
         </Container>
+
       </div>
       )
   }
