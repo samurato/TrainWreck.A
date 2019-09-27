@@ -29,7 +29,7 @@ class AdminDashboardScreen extends Component {
   //headers.append('Authorization', 'Basic ' + base64.encode(username + ":" + password));
 
 componentDidMount() {
-  fetch('http://172.19.126.129/api/users', {
+  fetch('http://' + Data.EndpointAPIURL + '/api/users', {
     headers: {
       method: 'GET',
       mode: 'no-cors',
@@ -56,7 +56,7 @@ componentDidMount() {
     return(
       <div className="mainPane">
         <div className="topBar pane">
-          <span className="title">Dashboard</span>
+          <span className="title">Trains</span>
           <Weather />
         </div>
 
@@ -76,7 +76,7 @@ componentDidMount() {
           <ul>
             {Data.TrainsData.map((data, index) => (
               <TrainSummary
-                id={data.id}
+                id={index}
                 line={data.line}
                 name={data.name}
                 route={data.route} />
@@ -102,7 +102,7 @@ componentDidMount() {
 
 function TrainSummary(data) {
   return (
-    <Segment className={data.id}>
+    <Segment>
       <Grid columns={3} divided>
         <Grid.Column width={3} verticalAlign="middle">
           <h4>
@@ -113,7 +113,7 @@ function TrainSummary(data) {
           <h4>
             {data.name}
           </h4>
-          {data.route}
+          <label>{data.route}</label>
         </Grid.Column>
         <Grid.Column>
         </Grid.Column>

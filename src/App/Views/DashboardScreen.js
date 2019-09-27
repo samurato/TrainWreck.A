@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import * as Data from '../data.js';
-import {Container, Grid, Statistic, Icon} from 'semantic-ui-react'
+import {Container, Grid, Statistic, Icon, Header, Button, Segment} from 'semantic-ui-react'
 //import Gauge from 'react-radial-gauge';
 //import ReactSpeedometer from "react-d3-speedometer";
 import Weather from '../component/Weather';
@@ -16,6 +16,21 @@ class DashBoardScreen extends Component{
         clearInterval(this.interval);
     }
 
+    // replace this!
+    timeNow = 10010200;
+    _simulate_new_detection = (e) => {
+      var sim = Math.random() * 7 < 1 ? "Detected" : "Not detected";
+      this.appendDetection(sim, this.timeNow);
+      this.timeNow++;
+    } 
+
+    appendDetection(status, timestamp) {
+      var newNode = document.createElement("p");
+      newNode.appendChild(document.createTextNode(timestamp + ": " + status));
+      var table = document.getElementById("history");
+      table.insertBefore(newNode, table.childNodes[0]);
+    }
+
     render(){
       let currentTrainID = window.location.hash.substr(1);
       let currentTrainInfo = Data.TrainsData[currentTrainID];
@@ -24,11 +39,71 @@ class DashBoardScreen extends Component{
         <div className="mainPane">
 
           <div className="topBar pane">
-            <span className="title">{currentTrainInfo.name}</span>
+            <span className="title">Dashboard</span>
             <Weather />
           </div>
 
+          <div className="DashboardScreen">
+            
+              <div className="view left">
+              
+                <div className="nameplate" style={{"background-color":Data.LineColours[currentTrainInfo.line]}}>
+                  <h1>{currentTrainInfo.name}</h1>
+                  <h4>
+                    <Icon name="road" />
+                    {currentTrainInfo.route}
+                  </h4>
+                </div>
+
+                <Segment color="purple" className="overrides">
+
+                  {/* This segment should be removed later */}
+                  <Segment color="red">
+                    <Button color="red" inverted onClick={this._simulate_new_detection}>Simulate new detection</Button><br/>
+                  </Segment>
+
+                  <Header>Manual overrides:</Header>
+
+                  <Button color="yellow">
+                    Accelerate
+                  </Button>
+                  
+                  <Button color="teal">
+                    Decelerate
+                  </Button>
+                  
+                  <Button color="orange">
+                    Stop
+                  </Button>
+
+                  <Button color="green">
+                    Continue
+                  </Button>
+
+
+                </Segment>
+
+              </div>
+              <div className="view right">
+              
+                <div className="snapshot">
+                  <img />
+                </div>
+                <div className="history" id="history">
+                </div>
+
+              </div>
+
+          </div>
+
+        </div>
+      );
+        /*
+        return(
+
           <Container>
+
+          
             <Grid stackable>
               <Grid.Row>
 
@@ -63,12 +138,6 @@ class DashBoardScreen extends Component{
 
               </Grid.Row>
             </Grid>
-          </Container>
-
-        </div>
-      );
-        /*
-        return(
 
                 <Container style={{ marginTop: '7em' }}>
 
