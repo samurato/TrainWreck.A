@@ -33,6 +33,8 @@ class LoginScreen extends React.Component {
             localStorage.setItem('token', msg.token);
             this.setError(null);
             console.log('success!, stored in local storage')
+
+            window.location = 'http://localhost:3000/';
             // redirect to another page
           } else {
             console.log('Failed to authenticate', await msg);
