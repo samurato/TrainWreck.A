@@ -28,7 +28,30 @@ let UserRole = 'Driver'
     }
   }
 
+  constructor(props){
+    super(props);
+    this.state = { 
+    items : []
+    }
+  }
+  componentDidMount() {
+    fetch('http://' + Data.EndpointAPIURL + '/api/users', {
+      headers: {
+        method: 'GET',
+        'Authorization': localStorage.getItem('token')}})
+    .then( res => res.json())
+    .then((response) => {
+      console.log(response)
+      this.setState({ items: response.users })})
+    .catch(console.log)
+    //console.log(items)
+  }
+
+
+
   render() {
+    const{items} = this.state;
+
     return (
       <div className="mainPane">
 
@@ -48,10 +71,10 @@ let UserRole = 'Driver'
             : "" }
           </Header>
             <div class="UserSummary">
-            {Data.UsersData.map((data, index) => (
+            {items.map((items, index) => (
               <Segment stackable>
-                <h3>{data.name}</h3>
-                <p><i>{data.permissions}</i></p>
+                <h3>{items.name}</h3>
+                <p><i>{items.roles}</i></p>
               </Segment>
             ))}
             </div>

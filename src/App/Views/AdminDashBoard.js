@@ -35,7 +35,7 @@ componentDidMount() {
       mode: 'no-cors',
       withCredentials: true,
       credentials: 'include',
-      'Authorization': Data.bearer
+      'Authorization': localStorage.getItem('token')
     }
   })
   .then( res =>
