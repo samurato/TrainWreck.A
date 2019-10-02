@@ -1,54 +1,68 @@
-import React, { Component } from 'react'
-import { Form, Header } from 'semantic-ui-react'
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import {Container, Button, Icon, Segment, Grid, Divider, Form, Header} from 'semantic-ui-react';
+import Weather from '../component/Weather';
+import * as Data from '../data.js';
 
 const options = [
-    { key: 'm', text: 'Male', value: 'male' },
-    { key: 'f', text: 'Female', value: 'female' },
-    { key: 'o', text: 'Other', value: 'other' },
+  { key: '0', text: 'Operator', value: 'operator' },
+  { key: '1', text: 'Administrator', value: 'admin' }
 ]
 
 class CreateUserForm extends Component {
-    state = {}
+  render() {
+    if (Data.UserPermissions === "Administrator") {
+      return (
+        <div className="mainPane admin">
 
-    handleChange = (e, { value }) => this.setState({ value })
+          <div className="topBar pane">
+            <span className="title">Create User</span>
+            <Weather />
+          </div>
 
-    render() {
-        const { value } = this.state
-        return (
+          <Container>
+            <Link to="/edit-users">
+              <Button secondary>
+                <Icon name="chevron left" />
+                Go Back
+              </Button>
+            </Link>
 
-            <Form style={{ marginTop: '7em', marginLeft: '4em', marginRight:'4em' }}>
-                <Header>Create User</Header>    <Form.Group widths='equal'>
-                    <Form.Input fluid label='First name' placeholder='First name' />
-                    <Form.Input fluid label='Last name' placeholder='Last name' />
-                    <Form.Select fluid label='Gender' options={options} placeholder='Gender' />
-                </Form.Group>
-                <Form.Group inline>
-                    <label>Role</label>
-                    <Form.Radio
-                        label='Driver'
-                        value='sm'
-                        checked={value === 'sm'}
-                        onChange={this.handleChange}
-                    />
-                    <Form.Radio
-                        label='Operator'
-                        value='md'
-                        checked={value === 'md'}
-                        onChange={this.handleChange}
-                    />
-                    <Form.Radio
-                        label='Admin'
-                        value='lg'
-                        checked={value === 'lg'}
-                        onChange={this.handleChange}
-                    />
-                </Form.Group>
-                <Form.TextArea label='Notes' placeholder='Comments on the user creation' />
+            <Segment padded="very">
+              <Form>
+                <Form.Input label='Name' placeholder="First and Last Name" />
+                <Form.Select label='Role' options={options} placeholder="Select Role" />
+              
+                <Form.Input label='Email' type="email" placeholder="Email address" />
+                <Form.Input label='Password' type="password" placeholder="Password" />
 
                 <Form.Button>Submit</Form.Button>
-            </Form>
-        )
+
+                ((add status message here))
+
+              </Form>
+            </Segment>
+          </Container>
+
+        </div>
+      )
+    } else {
+      return (
+        <div className="mainPane">
+
+          <div className="topBar pane">
+            <span className="title">Create User</span>
+            <Weather />
+          </div>
+
+          <Container>
+            You do not have permission to access this page.
+          </Container>
+
+        </div>
+      )
     }
+  }
 }
 
 export default CreateUserForm

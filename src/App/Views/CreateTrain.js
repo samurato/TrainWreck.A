@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { Form, Header } from 'semantic-ui-react'
+import React, {Component} from 'react';
+import {Form, Header} from 'semantic-ui-react';
+import Weather from '../component/Weather';
 
 const options = [
     { key: 'm', text: 'InterCity', value: 'male' },
@@ -9,31 +10,41 @@ const options = [
 ]
 
 class CreateTrainForm extends Component {
-    state = {}
+  state = {}
 
-    //handleChange = (e, { value }) => this.setState({ value })
+  //handleChange = (e, { value }) => this.setState({ value })
 
-    render() {
-        //const { value } = this.state
-        return (
+  render() {
+    //const { value } = this.state
+    return (
+      <div className="mainPane">
 
-            <Form style={{ marginTop: '7em', marginLeft: '4em', marginRight:'4em' }}>
-                <Header>Create Train</Header>    <Form.Group widths='equal'>
-                <Form.Input fluid label='Train Model' placeholder='Train Model' />
+        <div className="topBar pane">
+          <span className="title">Create Train</span>
+          <Weather />
+        </div>
 
-                <Form.Select fluid label='Type' options={options} placeholder='Train Type' />
-            </Form.Group>
-
-
-
-                    <Form.Input fluid label='Comissioned' placeholder='Comissioned Station' />
-
-                <Form.TextArea label='Notes' placeholder='Comments on the user creation' />
-
-                <Form.Button>Submit</Form.Button>
-            </Form>
-        )
-    }
+      </div>
+    )
+  }
 }
 
 export default CreateTrainForm
+
+
+/*       <Form style={{ marginTop: '7em', marginLeft: '4em', marginRight:'4em' }}>
+        <Header>Create Train</Header>    <Form.Group widths='equal'>
+        <Form.Input fluid label='Train Model' placeholder='Train Model' />
+
+        <Form.Select fluid label='Type' options={options} placeholder='Train Type' />
+      </Form.Group>
+
+
+
+      <Form.Input fluid label='Comissioned' placeholder='Comissioned Station' />
+
+      <Form.TextArea label='Notes' placeholder='Comments on the user creation' />
+
+      <Form.Button>Submit</Form.Button>
+      </Form> 
+      */

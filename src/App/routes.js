@@ -2,13 +2,12 @@ import React, {Component} from "react";
 import {Route, Switch} from "react-router-dom";
 import DashboardScreen from './Views/DashboardScreen';
 import LoginScreen from './Views/LoginScreen';
-import AdminDashBoardScreen from './Views/AdminDashBoard'
-import CreateUserScreen from './Views/CreateUser.js'
-import CreateTrainScreen from './Views/CreateTrain'
-import AdminUserScreen from './Views/AdminUserScreen'
-import AdminTrainScreen from './Views/AdminTrainScreen'
-import SensorReadingScreen from './Views/SensorReadings'
-import NotFound from './Views/NotFound'
+import AdminDashBoardScreen from './Views/AdminDashBoard';
+import EditUserLanding from './Views/EditUserLanding.js';
+import CreateUserScreen from './Views/CreateUser.js';
+import ModifyUserScreen from './Views/ModifyUser.js';
+import AdminUserScreen from './Views/AdminUserScreen';
+import NotFound from './Views/NotFound';
 
 class Routes extends Component {
   render()
@@ -20,10 +19,9 @@ class Routes extends Component {
           <Route exact path="/login" component={LoginScreen} />
           <Route exact path="/dashboard" component={DashboardScreen} />
           <Route exact path="/users" component={AdminUserScreen} />
-          <Route exact path="/CreateUser" component={CreateUserScreen} />
-          <Route exact path="/CreateTrain" component={CreateTrainScreen} />
-          <Route exact path="/AdminTrainScreen" component={AdminTrainScreen} />
-          <Route exact path="/Sensor" component={SensorReadingScreen} />
+          <Route exact path="/edit-users" component={EditUserLanding} />
+          <Route exact path="/add-user" component={CreateUserScreen} />
+          <Route exact path="/modify-user" component={ModifyUserScreen} />
           <Route component={NotFound}/>
         </Switch>
       );

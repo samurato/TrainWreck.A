@@ -78,7 +78,7 @@
   padding: 0px 1em;
 }
 
-#App .topBar, #App .header {
+#App .topBar, #App .container > .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -168,6 +168,10 @@
   padding-bottom: 100px;
 }
 
+#App .mainPane.admin {
+  background-color: #305161;
+}
+
 
 /*#App a {
   color: rgba(232,232,0,0.70) !important;
@@ -185,7 +189,8 @@
   color: rgba(232,232,0,0.70) !important;
 }
 
-#App .ui > div, #App .ui label {
+#App .ui label,
+#App .ui.divider {
   color: white !important;
 }
 

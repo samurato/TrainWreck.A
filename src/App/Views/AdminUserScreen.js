@@ -1,5 +1,6 @@
-import React, {Component, Link} from 'react';
+import React, {Component} from 'react';
 import * as Data from '../data.js';
+import {Link} from 'react-router-dom';
 import {Container, Grid, Header, Button, Icon, Placeholder, Segment} from 'semantic-ui-react';
 import Weather from '../component/Weather';
 
@@ -65,8 +66,9 @@ let UserRole = 'Driver'
             Users logged in: {Data.UsersData.length} 
             { Data.UserPermissions === "Administrator" ? 
               <Button inverted color="blue">
-                <Icon name="add" />
-                Edit Users
+                <Link to="/edit-users">
+                  <Icon name="add" /> Edit Users
+                </Link>
               </Button> 
             : "" }
           </Header>

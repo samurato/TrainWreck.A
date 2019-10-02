@@ -65,12 +65,6 @@ componentDidMount() {
 
           <Header>
             Active trains: {Data.TrainsData.length} 
-            { Data.UserPermissions === "Administrator" ? 
-              <Button inverted color="blue">
-                <Icon name="add" />
-                Add Trains
-              </Button> 
-            : "" }
           </Header>
 
           <ul>
@@ -84,15 +78,15 @@ componentDidMount() {
           </ul>
 
           
-          <div>
-          {items.map(item => (
-            <li key={item.name}>
-              <p>role: {item.role} </p>
-              <p>name: {item.name} </p>
-              <p>email: {item.email} </p>
-            </li>
-          ))}
-          </div>
+          {/* <div>
+           {items.map(item => (
+             <li key={item.name}>
+               <p>role: {item.role} </p>
+               <p>name: {item.name} </p>
+               <p>email: {item.email} </p>
+             </li>
+           ))}
+           </div>*/}
 
         </Container>
       </div>
