@@ -18,18 +18,21 @@ class AdminDashboardScreen extends Component {
       mode: 'no-cors',
       withCredentials: true,
       credentials: 'include',
-      'Authorization': Data.bearer
-      }
-    })
-    .then( res =>
-      res.json()
-      )
-    .then((response) => {
-      console.log(response)
-      this.setState({ items: response.trains })
-    })
-    .catch(console.log)
-  }
+      'Authorization': localStorage.getItem('token')
+    }
+  })
+  .then( res =>
+    res.json()
+    
+    )
+  .then((response) => {
+    console.log(response)
+    this.setState({ items: response.trains })
+  })
+  .catch(console.log)
+
+  //console.log(items)
+}
 
   render(){
     const{items} = this.state;
@@ -44,6 +47,7 @@ class AdminDashboardScreen extends Component {
           <p>Welcome back, {Data.UserLoggedOn}.</p>
 
           <Header>
+<<<<<<< HEAD
             Active trains: {items.length} 
             { Data.UserPermissions === "Administrator" ? 
               <Button inverted color="blue">
@@ -51,6 +55,9 @@ class AdminDashboardScreen extends Component {
                 Add Trains
               </Button> 
             : "" }
+=======
+            Active trains: {Data.TrainsData.length} 
+>>>>>>> e2baf719f2f703a34aa550a934d0b8d41016ea53
           </Header>
 
           <ul>
@@ -64,7 +71,20 @@ class AdminDashboardScreen extends Component {
           </ul>
 
           
+<<<<<<< HEAD
           
+=======
+          {/* <div>
+           {items.map(item => (
+             <li key={item.name}>
+               <p>role: {item.role} </p>
+               <p>name: {item.name} </p>
+               <p>email: {item.email} </p>
+             </li>
+           ))}
+           </div>*/}
+
+>>>>>>> e2baf719f2f703a34aa550a934d0b8d41016ea53
         </Container>
       </div>
     );
