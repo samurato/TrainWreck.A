@@ -1,7 +1,7 @@
 // Global
 export const UserLoggedOn = "Admin";
 export const UserPermissions = "Administrator";
-export const bearer = 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDhjNTczZDY0Mzc1MTA4NTQ3OTNiMTAiLCJuYW1lIjoicm9vdCBhY2NvdW50IiwiZW1haWwiOiJyb290QG1haWwuY29tIiwidXBkYXRlZF9hdCI6IjIwMTktMDktMjZUMDY6MTQ6MjEuNzE4WiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU2OTQ4MTQ0NCwiZXhwIjoxNTY5NjU0MjQ0fQ.kf78MwAt-m6r36BDcCzgvqy5knX-BgQ3ZVFAwhJaReA';
+export const bearer = 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDhjNTczZDY0Mzc1MTA4NTQ3OTNiMTAiLCJuYW1lIjoicm9vdCBhY2NvdW50IiwiZW1haWwiOiJyb290QG1haWwuY29tIiwidXBkYXRlZF9hdCI6IjIwMTktMDktMjZUMDY6MTQ6MjEuNzE4WiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU2OTk5MjQ1MCwiZXhwIjoxNTcwMTY1MjUwfQ.LDrl3uQpkoBnoGSak9bYEJEAwu5SLsWQU-UzBH4NuOA';
 
 //export const EndpointAPIURL = "172.19.126.129";
 export const EndpointAPIURL = "trains.benfranzi.com:8080"

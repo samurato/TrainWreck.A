@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import * as Data from '../data.js';
 import {Container, Grid, Statistic, Icon, Header, Button, Segment} from 'semantic-ui-react'
+//import items from '../AdminDashBoard.js';
 //import Gauge from 'react-radial-gauge';
 //import ReactSpeedometer from "react-d3-speedometer";
 import Weather from '../component/Weather';
@@ -8,9 +9,27 @@ import Weather from '../component/Weather';
 class DashBoardScreen extends Component{
     constructor(props){
         super(props);
-        this.state = { time: Date.now() };
-    } componentDidMount() {
-        this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
+        this.state = { time: Date.now() , items: [] };
+    } 
+    componentDidMount() {
+      this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
+      fetch('http://' + Data.EndpointAPIURL + '/api/trains', {
+        headers: {
+        method: 'GET',
+        mode: 'no-cors',
+        withCredentials: true,
+        credentials: 'include',
+        'Authorization': Data.bearer
+        }
+      })
+      .then( res =>
+        res.json()
+        )
+      .then((response) => {
+        console.log(response)
+        this.setState({ items: response.trains })
+      })
+      .catch(console.log)
     }
     componentWillUnmount() {
         clearInterval(this.interval);
@@ -33,6 +52,7 @@ class DashBoardScreen extends Component{
 
     render(){
       let currentTrainID = window.location.hash.substr(1);
+      //let currenTrainInfo = items.map(item => item[currentTrainID];
       let currentTrainInfo = Data.TrainsData[currentTrainID];
 
       return(
