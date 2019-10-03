@@ -19,6 +19,36 @@ let UserRole = 'Driver'
     }
   }
 
+ 
+
+  componentDidMount() {
+    const token = localStorage.getItem('token');
+    fetch('http://' + Data.EndpointAPIURL + '/api/users', {
+      headers: {
+        method: 'GET',
+        'Authorization': `Bearer ${token}`}})
+    .then( res => res.json())
+    .then((response) => {
+      console.log(response)
+      this.setState({ items: response.users })})
+    .catch(console.log)
+    //console.log(items)
+
+     const response =  fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
+      method: 'GET',
+      headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then( res => res.json())
+      .then((response) => {
+        console.log(response)
+        this.setState({ thisuser: response })
+      });
+      
+
+  }
+
   async getMe () {
     const token = localStorage.getItem('token');
     if (token) {
@@ -31,8 +61,8 @@ let UserRole = 'Driver'
 
       const msg = await response.json();
       if (response.ok) {
-        //document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode(JSON.stringify(msg)));
-        this.setState({thisuser: msg})
+        document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode(JSON.stringify(msg)));
+        //this.setState({thisuser: msg})
         //console.log(msg)
       } else {
           console.log(`Failed to authenticate: ${msg.error}`);
@@ -40,24 +70,7 @@ let UserRole = 'Driver'
     }
   }
 
-
-  componentDidMount() {
-    fetch('http://' + Data.EndpointAPIURL + '/api/users', {
-      headers: {
-        method: 'GET',
-        'Authorization': localStorage.getItem('token')}})
-    .then( res => res.json())
-    .then((response) => {
-      console.log(response)
-      this.setState({ items: response.users })})
-    .catch(console.log)
-    //console.log(items)
-  }
-
-
-
   render() {
-    this.getMe();
     const{items} = this.state;
     const{thisuser} = this.state;
 

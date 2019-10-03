@@ -19,27 +19,21 @@ class CreateUserForm extends Component {
     }
   }
 
-  async getMe () {
+  componentDidMount() {
     const token = localStorage.getItem('token');
-    if (token) {
-      const response = await fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      const msg = await response.json();
-      if (response.ok) {
-        //document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode(JSON.stringify(msg)));
-        this.setState({thisuser: msg})
-        //console.log(msg)
-      } else {
-          console.log(`Failed to authenticate: ${msg.error}`);
+    const response =  fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
       }
-    }
+    })
+    .then( res => res.json())
+    .then((response) => {
+      console.log(response)
+      this.setState({ thisuser: response })
+    });
   }
-
+ 
   async createUser(event){
     
     const token = localStorage.getItem('token');
@@ -79,7 +73,6 @@ class CreateUserForm extends Component {
   }
 
   render() {
-    this.getMe();
     const{thisuser} = this.state;
     if (thisuser.role === "admin") {
       return (

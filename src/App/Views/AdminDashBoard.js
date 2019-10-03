@@ -8,10 +8,11 @@ class AdminDashboardScreen extends Component {
 
   constructor(props){
     super(props);
-    this.state = { items : [] }
+    this.state = { items : [], thisuser: []}
   }
 
   componentDidMount() {
+    const token = localStorage.getItem('token');
     fetch('http://' + Data.EndpointAPIURL + '/api/trains', {
       headers: {
       method: 'GET',
@@ -19,23 +20,34 @@ class AdminDashboardScreen extends Component {
       withCredentials: true,
       credentials: 'include',
       'Authorization': localStorage.getItem('token')
-    }
-  })
-  .then( res =>
-    res.json()
-    
-    )
-  .then((response) => {
-    console.log(response)
-    this.setState({ items: response.trains })
-  })
-  .catch(console.log)
+      }
+    })
+    .then( res => res.json())
+    .then((response) => {
+      console.log(response)
+      this.setState({ items: response.trains })
+    })
+    .catch(console.log)
 
-  //console.log(items)
-}
+    
+    const response =  fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
+      method: 'GET',
+      headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then( res => res.json())
+      .then((response) => {
+        console.log(response)
+        this.setState({ thisuser: response })
+      });
+      
+      }
+
 
   render(){
     const{items} = this.state;
+    const{thisuser} = this.state
     return(
       <div className="mainPane">
         <div className="topBar pane">
@@ -44,10 +56,10 @@ class AdminDashboardScreen extends Component {
         </div>
 
         <Container>
-          <p>Welcome back, {Data.UserLoggedOn}.</p>
+          <p>Welcome back, {thisuser.name}.</p>
 
           <Header>
-            Active trains: {Data.TrainsData.length} 
+            Active trains: {items.length} 
           </Header>
           
           <ul>
