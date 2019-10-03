@@ -15,7 +15,7 @@ class DashBoardScreen extends Component{
       };
     }
 
-    socket = io(Data.socketEndpoint, {path: '/ws'});
+    socket = io("http://trains.benfranzi.com:8081", {path: '/ws'});
 
     componentDidMount() {
       this.socket.on('train-data', (msg) => {

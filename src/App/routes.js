@@ -10,11 +10,30 @@ import AdminUserScreen from './Views/AdminUserScreen';
 import NotFound from './Views/NotFound';
 import TestScreen from './Views/TestScreen.js';
 
-function Test(props) {
-  return <TestScreen test="this is passed from routes.js" />;
+// We want to move away from importing from data.js
+const EndpointAPIURL = "http://trains.benfranzi.com:8080";
+
+/* 
+ * (Ideally) implement authentication: 
+ * 
+ * https://blog.strapi.io/protected-routes-and-authentication-with-react-and-node-js/
+*/
+
+function GetUsers() {
+  let userList = {};
+
+  // check if authenticated
+
+  // run the API
+  let get_yo_fetch_here;
+  userList = {"dummy": "dummy_user"};
+
+  return userList;
 }
 
-// Authentication: https://blog.strapi.io/protected-routes-and-authentication-with-react-and-node-js/
+function ModifyUser(props) {
+  return <ModifyUserScreen users={GetUsers()} />
+}
 
 class Routes extends Component {
   render()
@@ -28,8 +47,7 @@ class Routes extends Component {
           <Route exact path="/users" component={AdminUserScreen} />
           <Route exact path="/edit-users" component={EditUserLanding} />
           <Route exact path="/add-user" component={CreateUserScreen} />
-          <Route exact path="/modify-user" component={ModifyUserScreen} />
-          <Route exact path="/test" render={Test} />
+          <Route exact path="/modify-user" render={ModifyUser} /> // Note that when using a function, have "render={}" not "component={}"
           <Route component={NotFound}/>
         </Switch>
       );

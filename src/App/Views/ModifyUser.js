@@ -10,10 +10,15 @@ const options = [
 ]
 
 class ModifyUserForm extends Component {
-  state = {
-    name: "",
-    id: "",
-    modalOpen: false
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      name: "",
+      id: "",
+      modalOpen: false,
+      userList: props.users
+    }
   }
 
   selectNewUser = (e) => {
@@ -23,7 +28,7 @@ class ModifyUserForm extends Component {
   closeModal = () => this.setState({ modalOpen: false })
 
   render() {
-    const { name, id, modalOpen } = this.state;
+    const { name, id, modalOpen, userList } = this.state;
 
     if (Data.UserPermissions === "Administrator") {
       return (
@@ -60,6 +65,8 @@ class ModifyUserForm extends Component {
 
               <SubForms userId={id} userName={name} />
             </Segment>
+
+            <pre>Load these users from routes.js: <br/>{JSON.stringify({userList}, null, 2)}</pre>
 
           </Container>
 
