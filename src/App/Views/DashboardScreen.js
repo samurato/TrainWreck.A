@@ -12,6 +12,7 @@ class DashBoardScreen extends Component{
         this.state = { time: Date.now() , items: [] };
     } 
     componentDidMount() {
+      const token = localStorage.getItem('token');
       this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
       fetch('http://' + Data.EndpointAPIURL + '/api/trains', {
         headers: {
@@ -19,7 +20,7 @@ class DashBoardScreen extends Component{
         mode: 'no-cors',
         withCredentials: true,
         credentials: 'include',
-        'Authorization': Data.bearer
+        'Authorization': `Bearer ${token}`
         }
       })
       .then( res =>

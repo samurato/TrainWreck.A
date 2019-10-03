@@ -25,7 +25,7 @@ class LoginScreen extends React.Component {
   async login (email, password) {
     var plaintextPassword = password;
 
-    const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/auth', { 
+    const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/auth/login', { 
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

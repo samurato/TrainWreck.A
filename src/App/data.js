@@ -1,11 +1,7 @@
 // Global
 export const UserLoggedOn = "Admin";
 export const UserPermissions = "Administrator";
-<<<<<<< HEAD
-export const bearer = 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDhjNTczZDY0Mzc1MTA4NTQ3OTNiMTAiLCJuYW1lIjoicm9vdCBhY2NvdW50IiwiZW1haWwiOiJyb290QG1haWwuY29tIiwidXBkYXRlZF9hdCI6IjIwMTktMDktMjZUMDY6MTQ6MjEuNzE4WiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU2OTk5MjQ1MCwiZXhwIjoxNTcwMTY1MjUwfQ.LDrl3uQpkoBnoGSak9bYEJEAwu5SLsWQU-UzBH4NuOA';
-=======
-//export const bearer = 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDhjNTczZDY0Mzc1MTA4NTQ3OTNiMTAiLCJuYW1lIjoicm9vdCBhY2NvdW50IiwiZW1haWwiOiJyb290QG1haWwuY29tIiwidXBkYXRlZF9hdCI6IjIwMTktMDktMjZUMDY6MTQ6MjEuNzE4WiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU2OTk5MzA3NiwiZXhwIjoxNTcwMTY1ODc2fQ.sfdfvtrFyOoC0qUMGxZbQvWHRmeb6jmAyI7mJ8X45UE';
->>>>>>> e2baf719f2f703a34aa550a934d0b8d41016ea53
+//export const bearer = 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDhjNTczZDY0Mzc1MTA4NTQ3OTNiMTAiLCJuYW1lIjoicm9vdCBhY2NvdW50IiwiZW1haWwiOiJyb290QG1haWwuY29tIiwidXBkYXRlZF9hdCI6IjIwMTktMDktMjZUMDY6MTQ6MjEuNzE4WiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU2OTk5MjQ1MCwiZXhwIjoxNTcwMTY1MjUwfQ.LDrl3uQpkoBnoGSak9bYEJEAwu5SLsWQU-UzBH4NuOA';
 
 //export const EndpointAPIURL = "172.19.126.129";
 export const EndpointAPIURL = "trains.benfranzi.com:8080"

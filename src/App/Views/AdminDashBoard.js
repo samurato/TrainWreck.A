@@ -47,19 +47,9 @@ class AdminDashboardScreen extends Component {
           <p>Welcome back, {Data.UserLoggedOn}.</p>
 
           <Header>
-<<<<<<< HEAD
-            Active trains: {items.length} 
-            { Data.UserPermissions === "Administrator" ? 
-              <Button inverted color="blue">
-                <Icon name="add" />
-                Add Trains
-              </Button> 
-            : "" }
-=======
             Active trains: {Data.TrainsData.length} 
->>>>>>> e2baf719f2f703a34aa550a934d0b8d41016ea53
           </Header>
-
+          
           <ul>
             {items.map((item, index) => (
               <TrainSummary
@@ -71,9 +61,6 @@ class AdminDashboardScreen extends Component {
           </ul>
 
           
-<<<<<<< HEAD
-          
-=======
           {/* <div>
            {items.map(item => (
              <li key={item.name}>
@@ -84,7 +71,6 @@ class AdminDashboardScreen extends Component {
            ))}
            </div>*/}
 
->>>>>>> e2baf719f2f703a34aa550a934d0b8d41016ea53
         </Container>
       </div>
     );

@@ -10,6 +10,15 @@ let UserStatus = 'Y';
 let UserRole = 'Driver'
 
  class AdminUserScreen extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = { 
+    items : [],
+    thisuser: []
+    }
+  }
+
   async getMe () {
     const token = localStorage.getItem('token');
     if (token) {
@@ -22,19 +31,16 @@ let UserRole = 'Driver'
 
       const msg = await response.json();
       if (response.ok) {
-        document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode(JSON.stringify(msg)));
+        //document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode(JSON.stringify(msg)));
+        this.setState({thisuser: msg})
+        //console.log(msg)
       } else {
           console.log(`Failed to authenticate: ${msg.error}`);
       }
     }
   }
 
-  constructor(props){
-    super(props);
-    this.state = { 
-    items : []
-    }
-  }
+
   componentDidMount() {
     fetch('http://' + Data.EndpointAPIURL + '/api/users', {
       headers: {
@@ -51,8 +57,13 @@ let UserRole = 'Driver'
 
 
   render() {
+    this.getMe();
     const{items} = this.state;
+    const{thisuser} = this.state;
 
+
+    //console.log(thisuser)
+    //console.log(thisuser.role === "admin")
     return (
       <div className="mainPane">
 
@@ -63,8 +74,8 @@ let UserRole = 'Driver'
 
         <Container>
           <Header>
-            Users logged in: {Data.UsersData.length} 
-            { Data.UserPermissions === "Administrator" ? 
+            Users logged in: {items.length} 
+            { thisuser.role === "admin" ? 
               <Button inverted color="blue">
                 <Link to="/edit-users">
                   <Icon name="add" /> Edit Users
@@ -76,7 +87,7 @@ let UserRole = 'Driver'
             {items.map((items, index) => (
               <Segment stackable>
                 <h3>{items.name}</h3>
-                <p><i>{items.roles}</i></p>
+                <p><i>{items.role}</i></p>
               </Segment>
             ))}
             </div>
@@ -90,11 +101,11 @@ let UserRole = 'Driver'
   }
 }
 
-function UserSummary(data) {
+function UserSummary(items) {
   return (
-    <Segment className={data.id}>
-      {data.name}
-          <Link to={"/dashboard#" + data.id}><Button inverted color="yellow">Edit</Button></Link>
+    <Segment className={items.id}>
+      {items.name}
+          <Link to={"/dashboard#" + items.id}><Button inverted color="yellow">Edit</Button></Link>
     </Segment>
   );
 }
