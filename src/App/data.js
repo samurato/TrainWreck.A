@@ -5,7 +5,7 @@ export const UserPermissions = "Administrator";
 
 //export const EndpointAPIURL = "172.19.126.129";
 export const EndpointAPIURL = "trains.benfranzi.com:8080"
-export const EndpointWSURL = "trains.benfranzi.com:8081"
+export const socketEndpoint = "http://trains.benfranzi.com:8081"
 
 // Display
 export let ActiveView = "Trains";
@@ -30,10 +30,10 @@ export const LineColours = {
 
 // Active lists
 export const TrainsData = [
-  {id: 1, name: "Train #1", route: "Central → Paramatta", line: "T2"},
-  {id: 2, name: "Train #2", route: "Clyde → Carlingford", line: "T6"},
-  {id: 3, name: "Train #3", route: "Central → Lithgow", line: "Blue Mountains Line"},
-  {id: 4, name: "Train #4", route: "Central → Macarthur via Revesby", line: "T8"}
+  {id: 1, name: "Train #1", route: "Central → Paramatta", line: "T2", weather: "Sunny"},
+  {id: 2, name: "Train #2", route: "Clyde → Carlingford", line: "T6", weather: "Rainy"},
+  {id: 3, name: "Train #3", route: "Central → Lithgow", line: "Blue Mountains Line", weather: "Cloudy"},
+  {id: 4, name: "Train #4", route: "Central → Macarthur via Revesby", line: "T8", weather: "Overcast"}
 ];
 
 export const UsersData = [

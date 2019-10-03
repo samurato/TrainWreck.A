@@ -1,54 +1,103 @@
 import React, {Component} from 'react'
 import * as Data from '../data.js';
-import {Container, Grid, Statistic, Icon, Header, Button, Segment} from 'semantic-ui-react'
-//import items from '../AdminDashBoard.js';
-//import Gauge from 'react-radial-gauge';
-//import ReactSpeedometer from "react-d3-speedometer";
+import {Container, Grid, Statistic, Icon, Header, Button, Message, Segment, Table} from 'semantic-ui-react'
 import Weather from '../component/Weather';
+import * as io from 'socket.io-client';
 
 class DashBoardScreen extends Component{
     constructor(props){
-        super(props);
-        this.state = { time: Date.now() , items: [] };
-    } 
+      super(props);
+
+      this.state = {
+        data: [],
+        lastOverride: "",
+        lastOverrideTime: 0,
+      };
+    }
+
+    socket = io(Data.socketEndpoint, {path: '/ws'});
+
     componentDidMount() {
-      const token = localStorage.getItem('token');
-      this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
-      fetch('http://' + Data.EndpointAPIURL + '/api/trains', {
-        headers: {
-        method: 'GET',
-        mode: 'no-cors',
-        withCredentials: true,
-        credentials: 'include',
-        'Authorization': `Bearer ${token}`
+      this.socket.on('train-data', (msg) => {
+        this.addData(JSON.parse(msg));
+      });
+
+      this.socket.on('connection', () => {
+        console.log('connected');
+        this.socket.send("hello", "world");
+      });
+    }
+    
+    addData(obj) {
+      this.setState({data: [obj, ...this.state.data]});
+    }
+
+    displayStatus() {
+      if (this.state.data.length > 0) {
+        var lastLogic = this.state.data[0]["logic"];
+        switch(lastLogic) {
+          case "DECEL":
+            return "Decelerating";
+          case "CONTINUE":
+            return "Continuing";
+          default:
+            return "Unknown";
         }
-      })
-      .then( res =>
-        res.json()
-        )
-      .then((response) => {
-        console.log(response)
-        this.setState({ items: response.trains })
-      })
-      .catch(console.log)
-    }
-    componentWillUnmount() {
-        clearInterval(this.interval);
+      } else {
+        return "Waiting...";
+      }
     }
 
-    // replace this!
-    timeNow = 10010200;
-    _simulate_new_detection = (e) => {
-      var sim = Math.random() * 7 < 1 ? "Detected" : "Not detected";
-      this.appendDetection(sim, this.timeNow);
-      this.timeNow++;
-    } 
+    displayDetection() {
+      if (this.state.data.length > 0) {
+        var lastItem = this.state.data[0]["data"]["detected"];
+        switch(lastItem) {
+          default:
+            return lastItem;
+        }
+      } else {
+        return null;
+      }
+    }
 
-    appendDetection(status, timestamp) {
-      var newNode = document.createElement("p");
-      newNode.appendChild(document.createTextNode(timestamp + ": " + status));
-      var table = document.getElementById("history");
-      table.insertBefore(newNode, table.childNodes[0]);
+    sendOverride(e) {
+      var override = e.target.value;
+      this.socket.emit(override);
+      this.setState({
+        data: [{
+          "logic": "OVERRIDE",
+          "data": {
+            "override": override,
+            "epoch": ""
+          },
+          "class": "warning"
+        }, ...this.state.data],
+        "lastOverride": override, 
+        "lastOverrideTime": Date.now()
+      });
+    }
+
+    displayOverrideMessage(override) {
+      if (this.state.lastOverride !== "") {
+        var timeDiff = (Date.now() - this.state.lastOverrideTime) / 1000;
+        if (timeDiff < 3) {
+          timeDiff = "a few seconds ago";
+        } else if (timeDiff < 60) {
+          timeDiff = Math.floor(timeDiff) + " seconds ago";
+        } else if (timeDiff < (60*60)) {
+          timeDiff = Math.ceil(timeDiff/60);
+          timeDiff += (timeDiff > 1) ? " minutes ago" : " minute ago";
+        }
+
+        return(
+          <Message>
+            <Message.Content>
+              <h3>Override sent: {this.state.lastOverride}</h3>
+              <i>{timeDiff}</i>
+            </Message.Content>
+          </Message>
+        );
+      }
     }
 
     render(){
@@ -76,31 +125,71 @@ class DashBoardScreen extends Component{
                   </h4>
                 </div>
 
+                <div className="status">
+                  <Table celled>
+                    <Table.Header>
+                      <Table.HeaderCell width={9}>Route</Table.HeaderCell>
+                      <Table.HeaderCell>{currentTrainInfo.line}</Table.HeaderCell>
+                    </Table.Header>
+                    
+                    <Table.Row>
+                      <Table.Cell>Weather</Table.Cell>
+                      <Table.Cell>{currentTrainInfo.weather}</Table.Cell>
+                    </Table.Row>
+                    
+                    <Table.Row>
+                      <Table.Cell>Status</Table.Cell>
+                      <Table.Cell>{this.displayStatus()}</Table.Cell>
+                    </Table.Row>
+                    
+                    <Table.Row>
+                      <Table.Cell>Detection</Table.Cell>
+                      <Table.Cell>{this.displayDetection()}</Table.Cell>
+                    </Table.Row>
+                    
+                    <Table.Row>
+                      <Table.Cell>Last Override</Table.Cell>
+                      <Table.Cell>{this.state.lastOverride}</Table.Cell>
+                    </Table.Row>
+                  </Table>
+
+                  {this.displayOverrideMessage(this.state.lastOverride)}
+                </div>
+
                 <Segment color="purple" className="overrides">
-
-                  {/* This segment should be removed later */}
-                  <Segment color="red">
-                    <Button color="red" inverted onClick={this._simulate_new_detection}>Simulate new detection</Button><br/>
-                  </Segment>
-
                   <Header>Manual overrides:</Header>
 
-                  <Button color="yellow">
+                  <Button
+                    color="yellow"
+                    value="Accelerate"
+                    onClick={this.sendOverride.bind(this)}
+                  >
                     Accelerate
                   </Button>
                   
-                  <Button color="teal">
+                  <Button 
+                    color="teal"
+                    value="Decelerate"
+                    onClick={this.sendOverride.bind(this)}
+                  >
                     Decelerate
                   </Button>
                   
-                  <Button color="orange">
+                  <Button
+                    color="orange"
+                    value="Stop"
+                    onClick={this.sendOverride.bind(this)}
+                  >
                     Stop
                   </Button>
 
-                  <Button color="green">
+                  <Button 
+                    color="green"
+                    value="Continue"
+                    onClick={this.sendOverride.bind(this)}
+                  >
                     Continue
                   </Button>
-
 
                 </Segment>
 
@@ -111,6 +200,15 @@ class DashBoardScreen extends Component{
                   <img />
                 </div>
                 <div className="history" id="history">
+                  <Table basic="very">
+                    {this.state.data.map(item =>
+                      <Table.Row className={item.class}>
+                        <Table.Cell>{item.data.epoch}</Table.Cell>
+                        <Table.Cell>{item.data.detected ? `Detected: ${item.data.detected}` : `Override: ${item.data.override}`}</Table.Cell>
+                        <Table.Cell>{item.logic}</Table.Cell>
+                      </Table.Row>
+                    )}
+                  </Table>
                 </div>
 
               </div>
@@ -119,207 +217,7 @@ class DashBoardScreen extends Component{
 
         </div>
       );
-        /*
-        return(
-
-          <Container>
-
-          
-            <Grid stackable>
-              <Grid.Row>
-
-                <Grid.Column width={10}>
-                  <Statistic>
-                    <Statistic.Value>
-                      <Icon name='train' /> {currentTrainInfo.name}
-                    </Statistic.Value>
-                  </Statistic>
-                </Grid.Column>
-
-                <Grid.Column width={4}>
-                  <Statistic>
-                    <Statistic.Value>
-                      <Icon name='alarm' /> 0
-                    </Statistic.Value>
-                    <Statistic.Label>Alarms</Statistic.Label>
-                  </Statistic>
-                </Grid.Column>
-
-              </Grid.Row>
-              <Grid.Row>
-
-                <Grid.Column width={7}>
-                  <Statistic>
-                    <Statistic.Value>
-                      <Icon name='road' /> {currentTrainInfo.route}
-                    </Statistic.Value>
-                    <Statistic.Label>Route</Statistic.Label>
-                  </Statistic>
-                </Grid.Column>
-
-              </Grid.Row>
-            </Grid>
-
-                <Container style={{ marginTop: '7em' }}>
-
-                    <Header as='h1'>Welcome to Train Wreck.A Dashboard</Header>
-                    <Grid stackable>
-                        <Grid.Row>
-                            <Grid.Column width={4}>
-
-                                    <Statistic>
-                                        <Statistic.Value>
-                                            <Icon name='train' />
-                                            20
-                                        </Statistic.Value>
-                                        <Statistic.Label>Active Trains</Statistic.Label>
-                                    </Statistic>
-
-                            </Grid.Column>
-                            <Grid.Column width={4}>
-
-                                    <Statistic>
-                                        <Statistic.Value>
-                                            <Icon name='road' />
-                                            10
-                                        </Statistic.Value>
-                                        <Statistic.Label>Active Network</Statistic.Label>
-                                    </Statistic>
-
-                            </Grid.Column>
-                            <Grid.Column width={4}>
-
-                                    <Statistic>
-                                        <Statistic.Value>
-                                            <Icon name='alarm' />
-                                            0
-                                        </Statistic.Value>
-                                        <Statistic.Label>Alarms</Statistic.Label>
-                                    </Statistic>
-
-                            </Grid.Column>
-                            <Grid.Column width={4}>
-
-                                    <Statistic>
-                                        <Statistic.Value>
-                                            <Icon name='stop circle' />
-                                            Petersham
-                                        </Statistic.Value>
-                                        <Statistic.Label>Next Stop</Statistic.Label>
-                                    </Statistic>
-
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                    <br/>
-                    <Header as='h1'>Train Status</Header>
-
-
-                    <Grid stackable>
-                        <Grid.Row>
-                            <Grid.Column width={6}>
-
-                                    <Header as='h4' align = 'center'>Current Route Covered</Header>
-
-                                    <Gauge size={300}
-                                           needleBaseColor={'#5550f4'}
-                                           progressWidth={20}
-                                           tickColor={'#f47489'}
-                                           currentValue = {20}
-
-                                    />
-
-
-                            </Grid.Column>
-                            <Grid.Column width={5}>
-
-                                    <Header as='h4' align = 'center'>Train Speed Km/hr </Header>
-
-                                    <ReactSpeedometer
-                                        minValue={0}
-                                        maxValue={400}
-                                        startColor={'#2df820'}
-                                        endColor={'#f8003a'}
-                                        value={(this.state.time%10000)/100}
-
-
-
-                                    />
-
-
-                            </Grid.Column>
-                            <Grid.Column width={5}>
-
-                                    <Header as='h4' align = 'center'>Train acceleration g's</Header>
-
-                                    <ReactSpeedometer
-                                        minValue={-2}
-                                        maxValue={2}
-                                        startColor={'#2df820'}
-                                        endColor={'#f8003a'}
-                                        value={(this.state.time%10000)/10000}
-
-
-
-                                    />
-
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                    <br/>
-
-
-
-
-                    <Header as='h1'>Schedule</Header>
-                    <Table celled>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell>Station</Table.HeaderCell>
-                                <Table.HeaderCell>Scheduled Time</Table.HeaderCell>
-                                <Table.HeaderCell>Actual Time</Table.HeaderCell>
-                            </Table.Row>
-                        </Table.Header>
-
-                        <Table.Body>
-                            <Table.Row>
-                                <Table.Cell>Central</Table.Cell>
-                                <Table.Cell>16:30</Table.Cell>
-                                <Table.Cell>16:30</Table.Cell>
-                            </Table.Row>
-                            <Table.Row error>
-                                <Table.Cell>Redfern</Table.Cell>
-                                <Table.Cell>16:35</Table.Cell>
-                                <Table.Cell>16:36</Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                                <Table.Cell>McDonaldTown</Table.Cell>
-                                <Table.Cell error>Not Stopping</Table.Cell>
-                                <Table.Cell error>
-                                    <Icon name='attention' />
-                                    Not Stopping
-                                </Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                                <Table.Cell>Newtown</Table.Cell>
-                                <Table.Cell>16:45</Table.Cell>
-                                <Table.Cell>16:45</Table.Cell>
-                            </Table.Row>
-                        </Table.Body>
-                    </Table>
-
-
-                    <p>Development in Progress</p>
-                    <p> ATO Automatic Train Operations.</p>
-
-                </Container>
-
-
-
-
-        );*/
     }
-
 }
 
 

@@ -67,29 +67,16 @@ class AdminDashboardScreen extends Component {
               <TrainSummary
                 id = {index}
                 line={item.route_id}
-                name={item._id}
-                route="train route" />
+                name={item.train_name}
+                route={item.route_name} />
             ))}
           </ul>
-
-          
-          {/* <div>
-           {items.map(item => (
-             <li key={item.name}>
-               <p>role: {item.role} </p>
-               <p>name: {item.name} </p>
-               <p>email: {item.email} </p>
-             </li>
-           ))}
-           </div>*/}
 
         </Container>
       </div>
     );
   }
 }
-
-//export {items};
 
 function TrainSummary(data) {
   return (

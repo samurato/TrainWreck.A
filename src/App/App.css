@@ -148,6 +148,13 @@
   overflow: auto;
 }
 
+#App .mainPane .DashboardScreen .view.right .history td {
+  padding-left: 5px;
+}
+#App .mainPane .DashboardScreen .view.right .history tr:not(.warning) {
+  color: white;
+}
+
 #App .mainPane .DashboardScreen .view.left .nameplate {
   padding: 20px 20px 35px 50px;
   border-radius: 0 0 5px 5px;
@@ -162,6 +169,11 @@
 #App .mainPane .DashboardScreen .view.left .nameplate h4 .icon {
   position: absolute;
   left: -25px;
+}
+
+#App .mainPane .DashboardScreen .view.left .status {
+  flex-grow: 4;
+  padding: 2em 4em;
 }
 
 #App .mainPane .DashboardScreen .view.left .overrides {
