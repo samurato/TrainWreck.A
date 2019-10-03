@@ -40,33 +40,31 @@ class CreateUserForm extends Component {
     }
   }
 
-  async createUser(name){
-    //const{submittedRole} = this.state
-    //console.log(this.state)
-    //console.log(submittedRole)
+  async createUser(event){
     
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/users/create', {
-  //       method: 'POST',
-  //       headers: {
-  //           'Authorization': `Bear ${token}`
-  //       },
-  //       body: JSON.stringify({
-  //           "name": name,
-  //           "role": role,
-  //           "email": email,
-  //           "password": password
-  //       })
-  //     });
+    const token = localStorage.getItem('token');
+    if (token) {
+      const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/users/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            "name": event.target.name.value,
+            "role": this.state.submittedRole,
+            "email": event.target.email.value,
+            "password": event.target.password.value
+        })
+      });
 
-  //   const msg = await response.json();
-  //   if(response.ok){
-  //     console.log("okay");
-  //   } else{
-  //     console.log("FAILED")
-  //   }
-  // }
+    const msg = await response.json();
+    if(response.ok){
+      console.log("okay");
+    } else{
+      console.log("FAILED")
+    }
+  }
 }
 
 //handleChange = (event, {role, value}) => this.setState({submittedRole: value})
@@ -76,6 +74,8 @@ class CreateUserForm extends Component {
     //console.log(selectedRole)
     await this.setState({submittedRole: selectedRole})
     //console.log(this.state.s)
+    //Data.test = "changed"
+    //console.log(Data.test)
   }
 
   render() {
@@ -99,7 +99,7 @@ class CreateUserForm extends Component {
             </Link>
 
             <Segment padded="very">
-              <Form onSubmit={(event) => this.createUser(event.target.name.value)}>
+              <Form onSubmit={(event) => this.createUser(event)}>
                 <Form.Input name='name' label='Name' placeholder="First and Last Name" />
                 <Form.Select name='role' label='Role' options={options} placeholder="Select Role" onChange={this.handleChange} />
               
