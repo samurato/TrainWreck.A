@@ -55,11 +55,14 @@ class CreateUserForm extends Component {
     const msg = await response.json();
     if(response.ok){
       console.log("okay");
+      window.location.reload(); 
+      
     } else{
+      window.location.reload(); 
       console.log("FAILED")
+      }
     }
   }
-}
 
 //handleChange = (event, {role, value}) => this.setState({submittedRole: value})
 

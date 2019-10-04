@@ -17,23 +17,103 @@ class ModifyUserForm extends Component {
       name: "",
       id: "",
       modalOpen: false,
-      userList: props.users
+      userList: [],
+      thisuser: []
     }
   }
-
+  // handleChange = async (e) => {
+  //   var selectedRole = e.target.firstChild.innerText;
+  //   console.log(selectedRole)
+  //  // await this.setState({submittedRole: selectedRole})
+  //   //console.log(this.state.s)
+  //   //Data.test = "changed"
+  //   //console.log(Data.test)
+  // }
+  
+  
   selectNewUser = (e) => {
-    this.setState({name: e.target.firstChild.data, id: e.target.value});
+    console.log("reached before")
+    //this.state.userList.find()
+    var matchUser = this.state.userList.find((element) => {
+      return element.name === e.target.firstChild.innerText;
+    })
+    console.log(matchUser._id)
+    this.setState({name: e.target.firstChild.innerText, id: matchUser});
+    console.log(this.state)
+
+
   } 
 
   closeModal = () => this.setState({ modalOpen: false })
+  
+
+  async modifyName(event,id){
+    
+    const token = localStorage.getItem('token');
+    if (token) {
+      const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/users/name'+ id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            "name": event.target.name.value,
+        })
+      });
+
+    const msg = await response.json();
+    if(response.ok){
+      console.log("okay");
+      //window.location.reload(); 
+      
+    } else{
+      //window.location.reload(); 
+      console.log("FAILED")
+      }
+    }
+  }
+
+  componentDidMount() {
+    const token = localStorage.getItem('token');
+    fetch('http://' + Data.EndpointAPIURL + '/api/users', {
+      headers: {
+        method: 'GET',
+        'Authorization': `Bearer ${token}`}})
+    .then( res => res.json())
+    .then((response) => {
+      console.log(response)
+      this.setState({ userList: response.users })})
+    .catch(console.log)
+    //console.log(items)
+
+     const response =  fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
+      method: 'GET',
+      headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then( res => res.json())
+      .then((response) => {
+        console.log(response)
+        this.setState({ thisuser: response })
+      });
+      
+
+  }
 
   render() {
-    const { name, id, modalOpen, userList } = this.state;
+    let test = this.state.userList.map(function (userList, index) {
+      return { key: index, value: userList._id, text: userList.name };
+    })
 
-    if (Data.UserPermissions === "Administrator") {
+    const { name, id, modalOpen, userList,thisuser } = this.state;
+
+    //console.log(userList)
+    if (thisuser.role === "admin") {
       return (
         <div className="mainPane admin">
-
+          
           <div className="topBar pane">
             <span className="title">Edit Users</span>
             <Weather />
@@ -49,9 +129,11 @@ class ModifyUserForm extends Component {
             
             <Segment padded="very">
               <Form size="large">
-                <Form.Field control="select">
+                <Form.Select name='users' label='User' options={test} placeholder="Select User" onChange={(event) => this.selectNewUser(event)} />
+
+                {/* <Form.Field control="select">
                   <option selected disabled>Select user to edit</option>
-                  {Data.UsersData.map((data, index) => (
+                  {userList.map((data, index) => (
                     <option
                       name="user" 
                       value={data.id} 
@@ -60,13 +142,13 @@ class ModifyUserForm extends Component {
                       {data.name}
                     </option>
                   ))}
-                </Form.Field>
+                </Form.Field> */}
               </Form>
 
               <SubForms userId={id} userName={name} />
             </Segment>
 
-            <pre>Load these users from routes.js: <br/>{JSON.stringify({userList}, null, 2)}</pre>
+            {/* <pre>Load these users from routes.js: <br/>{JSON.stringify({userList}, null, 2)}</pre> */}
 
           </Container>
 
@@ -94,7 +176,7 @@ class ModifyUserForm extends Component {
 
 function SubForms(props) {
   const userId = props.userId;
-
+  
   if (userId) {
     return(
       <Segment basic>
@@ -111,7 +193,7 @@ function SubForms(props) {
                 
                 <Modal.Header>Enter New Name</Modal.Header>
                 <Modal.Content>
-                  <Form>
+                  <Form onSubmit={(event) => console.log("submit button pressed")}>
                     <Form.Input fluid />
                     <Button color="blue" type="submit">
                       Submit
