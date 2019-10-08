@@ -5,8 +5,8 @@ import Weather from '../component/Weather';
 import * as Data from '../data.js';
 
 const options = [
-  { key: '0', text: 'Operator', value: 'operator' },
-  { key: '1', text: 'Administrator', value: 'admin' }
+  { key: '0', text: 'operator', value: 'operator' },
+  { key: '1', text: 'admin', value: 'admin' }
 ]
 
 class ModifyUserForm extends Component {
@@ -18,28 +18,19 @@ class ModifyUserForm extends Component {
       id: "",
       modalOpen: false,
       userList: [],
-      thisuser: []
+      thisuser: [],
+      submittedRole: ""
     }
   }
-  // handleChange = async (e) => {
-  //   var selectedRole = e.target.firstChild.innerText;
-  //   console.log(selectedRole)
-  //  // await this.setState({submittedRole: selectedRole})
-  //   //console.log(this.state.s)
-  //   //Data.test = "changed"
-  //   //console.log(Data.test)
-  // }
-  
   
   selectNewUser = (e) => {
-    console.log("reached before")
     //this.state.userList.find()
     var matchUser = this.state.userList.find((element) => {
       return element.name === e.target.firstChild.innerText;
     })
-    console.log(matchUser._id)
+    //console.log(matchUser._id)
     this.setState({name: e.target.firstChild.innerText, id: matchUser});
-    console.log(this.state)
+    //console.log(this.state)
 
 
   } 
@@ -48,30 +39,127 @@ class ModifyUserForm extends Component {
   
 
   async modifyName(event,id){
-    
+    //console.log(event.target.changeName.value)
     const token = localStorage.getItem('token');
+    //const token = "test"
     if (token) {
-      const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/users/name'+ id, {
+      const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/users/name/'+ id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-            "name": event.target.name.value,
+            "name": event.target.changeName.value
         })
       });
 
     const msg = await response.json();
     if(response.ok){
       console.log("okay");
-      //window.location.reload(); 
+      window.location.reload(); 
       
-    } else{
-      //window.location.reload(); 
+    } else{ 
       console.log("FAILED")
+      window.location.reload();
       }
     }
+  }
+
+
+  handleChange = async (e) => {
+    var selectedRole = e.target.firstChild.innerText;
+    //console.log(selectedRole)
+    await this.setState({submittedRole: selectedRole})
+    console.log(this.state.submittedRole)
+    }
+
+   modifyRole = async (id) => {
+    //this way we have access to this
+    //console.log(this.state)
+    const token = localStorage.getItem('token');
+    if (token) {
+      const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/users/role/'+ id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            "role": this.state.submittedRole
+        })
+      });
+
+    const msg = await response.json();
+    if(response.ok){
+      console.log("okay");
+      window.location.reload(); 
+      
+    } else{ 
+      console.log("FAILED")
+      window.location.reload();
+      }
+    }
+  }
+
+  async modifyPassword(event,id){
+    var plaintextPassword = event.target.changePassword.value
+    //console.log(event.target)
+    const token = localStorage.getItem('token');
+    //const token = "test"
+    if (token) {
+      const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/users/password/'+ id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            "password": plaintextPassword
+        })
+      });
+
+    const msg = await response.json();
+    if(response.ok){
+      console.log("okay");
+      window.location.reload(); 
+      
+    } else{ 
+      console.log("FAILED")
+      window.location.reload();
+      //password has to be longer than 8 characters
+      }
+    }
+  }
+
+  removeUser = async (id) =>{
+    //console.log("reached")
+    const token = localStorage.getItem('token');
+    //const token = "test"
+    if (token) {
+      const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/users/remove/'+ id, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      });
+
+    const msg = await response.json();
+    if(response.ok){
+      console.log("okay");
+      window.location.reload(); 
+      
+    } else{ 
+      console.log("FAILED")
+      window.location.reload();
+      }
+    }
+  }
+
+  alternateremoveUser = async () =>{
+    console.log("need to close modal")
+
   }
 
   componentDidMount() {
@@ -82,7 +170,7 @@ class ModifyUserForm extends Component {
         'Authorization': `Bearer ${token}`}})
     .then( res => res.json())
     .then((response) => {
-      console.log(response)
+      //console.log(response)
       this.setState({ userList: response.users })})
     .catch(console.log)
     //console.log(items)
@@ -95,7 +183,7 @@ class ModifyUserForm extends Component {
       })
       .then( res => res.json())
       .then((response) => {
-        console.log(response)
+        //console.log(response)
         this.setState({ thisuser: response })
       });
       
@@ -145,7 +233,7 @@ class ModifyUserForm extends Component {
                 </Form.Field> */}
               </Form>
 
-              <SubForms userId={id} userName={name} />
+              <SubForms userId={id} userName={name} nameHandler={this.modifyName} passwordHandler={this.modifyPassword} roleHandler={this.modifyRole} dropboxHandler={this.handleChange} removeHandler={this.removeUser} alternateHandler={this.alternateremoveUser}/>
             </Segment>
 
             {/* <pre>Load these users from routes.js: <br/>{JSON.stringify({userList}, null, 2)}</pre> */}
@@ -176,7 +264,7 @@ class ModifyUserForm extends Component {
 
 function SubForms(props) {
   const userId = props.userId;
-  
+
   if (userId) {
     return(
       <Segment basic>
@@ -193,8 +281,8 @@ function SubForms(props) {
                 
                 <Modal.Header>Enter New Name</Modal.Header>
                 <Modal.Content>
-                  <Form onSubmit={(event) => console.log("submit button pressed")}>
-                    <Form.Input fluid />
+                  <Form onSubmit={(event) => props.nameHandler(event,userId._id)}>
+                    <Form.Input name="changeName" fluid />
                     <Button color="blue" type="submit">
                       Submit
                     </Button>
@@ -215,8 +303,8 @@ function SubForms(props) {
                 
                 <Modal.Header>Select New Role</Modal.Header>
                 <Modal.Content>
-                  <Form>
-                    <Form.Select options={options} fluid />
+                  <Form onSubmit={(event) => props.roleHandler(userId._id)}>
+                    <Form.Select fluid name="changeRole" options={options} onChange={props.dropboxHandler}/>
                     <Button color="blue" type="submit">
                       Submit
                     </Button>
@@ -240,8 +328,8 @@ function SubForms(props) {
                 
                 <Modal.Header>Enter New Password</Modal.Header>
                 <Modal.Content>
-                  <Form>
-                    <Form.Input type="password" fluid />
+                  <Form onSubmit={(event) => props.passwordHandler(event,userId._id)}>
+                    <Form.Input type="password" name="changePassword" fluid />
                     <Button color="blue" type="submit">
                       Submit
                     </Button>
@@ -252,7 +340,7 @@ function SubForms(props) {
               </Modal>
             </Grid.Column>
 
-            <Grid.Column>
+            {/* <Grid.Column>
               <Modal trigger={<Button fluid color="red">Delete user</Button>} basic size='small'>
                 <Header icon='exclamation triangle' content='Warning' />
                 <Modal.Content>
@@ -269,6 +357,31 @@ function SubForms(props) {
                   </Button>
                 </Modal.Actions>
               </Modal>             
+            </Grid.Column> */}
+
+            <Grid.Column>
+              <Modal trigger={<Button fluid color="red">Delete user</Button>} basic size='small'>
+              <Header icon='exclamation triangle' content='Warning' />
+                <Modal.Content>
+                  <p>
+                    Are you sure you wish to delete {props.userName}?
+                  </p>
+                  <Form onSubmit={() => props.removeHandler(userId._id)}>
+                    <Button basic color='blue' inverted type="submit">
+                      <Icon name='checkmark' /> Yes
+                    </Button>
+                  </Form>
+                  <p>
+                  </p> 
+                  <Form onSubmit={(event) => props.alternateHandler(event)}>
+                    <Button basic color='red' inverted >
+                      <Icon name='remove' /> No
+                    </Button>
+                  </Form>
+                </Modal.Content>
+                <Modal.Actions>
+                </Modal.Actions>
+              </Modal>
             </Grid.Column>
 
           </Grid.Row>

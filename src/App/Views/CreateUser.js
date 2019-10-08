@@ -55,11 +55,16 @@ class CreateUserForm extends Component {
     const msg = await response.json();
     if(response.ok){
       console.log("okay");
+      //document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode("successfully added"));
+
       window.location.reload(); 
       
     } else{
-      window.location.reload(); 
       console.log("FAILED")
+      window.location.reload(); 
+
+      //document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode("Failed to add"));
+
       }
     }
   }
