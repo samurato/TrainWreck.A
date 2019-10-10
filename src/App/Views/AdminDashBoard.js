@@ -8,7 +8,11 @@ class AdminDashboardScreen extends Component {
 
   constructor(props){
     super(props);
-    this.state = { items : [], thisuser: []}
+    this.state = {
+       items : [],
+       thisuser: [],
+       message: "Loading..."
+      }
   }
 
   componentDidMount() {
@@ -40,42 +44,68 @@ class AdminDashboardScreen extends Component {
       .then((response) => {
         //console.log(response)
         this.setState({ thisuser: response })
+        if (!(this.state.thisuser.role === "operator" || this.state.thisuser.role === "admin")){
+          this.setState({message: "You do not have permission to access this page."})
+          if (localStorage.getItem('token')) {
+            localStorage.removeItem('token');
+            window.location = '/login';
+          }
+        }
+          
       });
       
       }
 
 
   render(){
-    const{items} = this.state;
-    const{thisuser} = this.state
-    return(
-      <div className="mainPane">
-        <div className="topBar pane">
-          <span className="title">Trains</span>
-          <Weather />
+    const{items,thisuser,message} = this.state;
+
+    if (thisuser.role === "admin"|| thisuser.role === "operator") {
+      return(
+        <div className="mainPane">
+          <div className="topBar pane">
+            <span className="title">Trains</span>
+            <Weather />
+          </div>
+
+          <Container>
+            <p>Welcome back, {thisuser.name}.</p>
+
+            <Header>
+              Active trains: {items.length} 
+            </Header>
+            
+            <ul>
+              {items.map((item, index) => (
+                <TrainSummary
+                  id = {index}
+                  line={item.route_id}
+                  name={item.train_name}
+                  route={item.route_name} />
+              ))}
+            </ul>
+
+          </Container>
         </div>
+      );
+    }else {
+      return (
+        <div className="mainPane">
 
-        <Container>
-          <p>Welcome back, {thisuser.name}.</p>
+          <div className="topBar pane">
+            <span className="title">Create User</span>
+            <Weather />
+          </div>
 
-          <Header>
-            Active trains: {items.length} 
-          </Header>
-          
-          <ul>
-            {items.map((item, index) => (
-              <TrainSummary
-                id = {index}
-                line={item.route_id}
-                name={item.train_name}
-                route={item.route_name} />
-            ))}
-          </ul>
+          <Container>
+           { message }
+          </Container>
 
-        </Container>
-      </div>
-    );
-  }
+        </div>
+      )
+    }
+  } 
+
 }
 
 function TrainSummary(data) {

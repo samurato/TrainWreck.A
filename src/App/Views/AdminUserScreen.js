@@ -15,7 +15,8 @@ let UserRole = 'Driver'
     super(props);
     this.state = { 
     items : [],
-    thisuser: []
+    thisuser: [],
+    message: "Loading..."
     }
   }
 
@@ -44,6 +45,10 @@ let UserRole = 'Driver'
       .then((response) => {
         //console.log(response)
         this.setState({ thisuser: response })
+        if (!(this.state.thisuser.role === "admin")){
+        this.setState({message: "You do not have permission to access this page."})
+        //console.log(this.state.message)
+        }
       });
       
 
@@ -71,9 +76,7 @@ let UserRole = 'Driver'
   }
 
   render() {
-    const{items} = this.state;
-    const{thisuser} = this.state;
-
+    const{items, thisuser, message} = this.state;
 
     //console.log(thisuser)
     //console.log(thisuser.role === "admin")
@@ -122,7 +125,7 @@ let UserRole = 'Driver'
           </div>
 
           <Container>
-            You do not have permission to access this page.
+            { message }
           </Container>
 
         </div>

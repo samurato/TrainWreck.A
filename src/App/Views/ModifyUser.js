@@ -20,7 +20,8 @@ class ModifyUserForm extends Component {
       userList: [],
       thisuser: [],
       submittedRole: "",
-      error: null
+      error: null,
+      message: "Loading..."
     }
   }
 
@@ -199,6 +200,10 @@ class ModifyUserForm extends Component {
       .then((response) => {
         //console.log(response)
         this.setState({ thisuser: response })
+        if (!(this.state.thisuser.role === "admin")){
+          this.setState({message: "You do not have permission to access this page."})
+          console.log(this.state.message)
+        }
       });
       
 
@@ -209,7 +214,7 @@ class ModifyUserForm extends Component {
       return { key: index, value: userList._id, text: userList.name };
     })
 
-    const { name, id, modalOpen, userList,thisuser } = this.state;
+    const { name, id, modalOpen, userList,thisuser,message } = this.state;
 
     //console.log(userList)
     if (thisuser.role === "admin") {
@@ -266,7 +271,7 @@ class ModifyUserForm extends Component {
           </div>
 
           <Container>
-            You do not have permission to access this page.
+            { message }
           </Container>
 
         </div>

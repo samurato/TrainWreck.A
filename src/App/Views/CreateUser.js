@@ -16,7 +16,8 @@ class CreateUserForm extends Component {
     this.state = { 
       thisuser: [],
       submittedRole: '',
-      error: null
+      error: null,
+      message: "Loading..."
     }
   }
   setError (msg) {
@@ -35,6 +36,10 @@ class CreateUserForm extends Component {
     .then((response) => {
       console.log(response)
       this.setState({ thisuser: response })
+      if (!(this.state.thisuser.role === "admin")){
+        this.setState({message: "You do not have permission to access this page."})
+        //console.log(this.state.message)
+        }
     });
   }
  
@@ -86,7 +91,7 @@ class CreateUserForm extends Component {
   }
 
   render() {
-    const{thisuser} = this.state;
+    const{thisuser,message} = this.state;
     if (thisuser.role === "admin") {
       return (
         <div className="mainPane admin">
@@ -131,7 +136,7 @@ class CreateUserForm extends Component {
           </div>
 
           <Container>
-            You do not have permission to access this page.
+            { message }
           </Container>
 
         </div>
