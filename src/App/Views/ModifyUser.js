@@ -25,24 +25,42 @@ class ModifyUserForm extends Component {
     }
   }
 
+  // Function to select user to edit, while storing their user ID and name
+  /* Select User to modify
+  *
+  * Function used to obtain and store the selected user into a state
+  * 
+  */
   selectNewUser = async (e) => {
-    //this.state.userList.find()
-     var matchUser = this.state.userList.find((element) => {
+    // Obtains the user id based on an array search for the user name
+    var matchUser = this.state.userList.find((element) => {
       return element.name === e.target.firstChild.innerText;
     })
     //console.log(matchUser._id)
     await this.setState({name: e.target.firstChild.innerText, id: matchUser});
     //console.log(this.state)
-
-
   } 
-
+  
+  /* Closing modal 
+  *
+  * Function used to update whether to show or hide the modal
+  * 
+  */
   closeModal = () => this.setState({ modalOpen: false })
 
+  // Function to update error state 
   setError (msg) {
     this.setState({error: msg})
   }
 
+  /*Modify name
+  *
+  * Event handler to change the name of the previously selected
+  * user through a PUT API request.Based on the request response
+  * it will update an error message to display feedback.
+  * 
+  * 
+  */
   modifyName = async (event,id) => {
     //console.log(event.target.changeName.value)
     const token = localStorage.getItem('token');
@@ -73,15 +91,23 @@ class ModifyUserForm extends Component {
     }
   }
 
-
+  // Event handler used to get dropdown box user selection 
   handleChange = async (e) => {
     var selectedRole = e.target.firstChild.innerText;
     //console.log(selectedRole)
     await this.setState({submittedRole: selectedRole})
-    console.log(this.state.submittedRole)
+    //console.log(this.state.submittedRole)
     }
 
-   modifyRole = async (id) => {
+  /*Modify Role
+  *
+  * Event handler to change the role of the previously selected
+  * user through a PUT API request.Based on the request response
+  * it will update an error message to display feedback.
+  * 
+  * 
+  */  
+  modifyRole = async (id) => {
     //this way we have access to this
     //console.log(this.state)
     const token = localStorage.getItem('token');
@@ -111,6 +137,14 @@ class ModifyUserForm extends Component {
     }
   }
 
+  /*Modify Password
+  *
+  * Event handler to change the password of the previously selected
+  * user through a PUT API request.Based on the request response
+  * it will update an error message to display feedback.
+  * 
+  * 
+  */
   modifyPassword = async (event,id)=>{
     var plaintextPassword = event.target.changePassword.value
     //console.log(event.target)
@@ -145,10 +179,17 @@ class ModifyUserForm extends Component {
     }
   }
 
+  /*Delete user
+  *
+  * Event handler to delete the previously selected
+  * user through a DELETE API request.Based on the request response
+  * it will update an error message to display feedback.
+  * 
+  * 
+  */
   removeUser = async (id) =>{
     //console.log("reached")
     const token = localStorage.getItem('token');
-    //const token = "test"
     if (token) {
       const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/users/remove/'+ id, {
         method: 'DELETE',
@@ -172,6 +213,11 @@ class ModifyUserForm extends Component {
     }
   }
 
+  /*Closing delete user modal
+  *
+  * Event handler to close the delete user modal
+  * 
+  */
   alternateremoveUser = async () =>{
     console.log("need to close modal")
 
@@ -179,6 +225,8 @@ class ModifyUserForm extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem('token');
+    
+    //Obtains and stores list of users from the database
     fetch('http://' + Data.EndpointAPIURL + '/api/users', {
       headers: {
         method: 'GET',
@@ -190,7 +238,8 @@ class ModifyUserForm extends Component {
     .catch(console.log)
     //console.log(items)
 
-     const response =  fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
+    //Obtains and stores data on currenlty login user
+    fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
       method: 'GET',
       headers: {
           'Authorization': `Bearer ${token}`
@@ -236,7 +285,13 @@ class ModifyUserForm extends Component {
             
             <Segment padded="very">
               <Form size="large">
-                <Form.Select name='users' label='User' options={test} placeholder="Select User" onChange={(event) => this.selectNewUser(event)} />
+                <Form.Select 
+                  name='users' 
+                  label='User' 
+                  options={test} 
+                  placeholder="Select User" 
+                  onChange={(event) => this.selectNewUser(event)} 
+                  />
 
                 {/* <Form.Field control="select">
                   <option selected disabled>Select user to edit</option>
@@ -252,9 +307,18 @@ class ModifyUserForm extends Component {
                 </Form.Field> */}
               </Form>
 
-              <SubForms userId={id} userName={name} nameHandler={this.modifyName} passwordHandler={this.modifyPassword} roleHandler={this.modifyRole} dropboxHandler={this.handleChange} removeHandler={this.removeUser} alternateHandler={this.alternateremoveUser} error={this.state.error}/>
-            </Segment>
+              <SubForms 
+                userId={id} 
+                userName={name} 
+                nameHandler={this.modifyName} 
+                passwordHandler={this.modifyPassword} 
+                roleHandler={this.modifyRole} 
+                dropboxHandler={this.handleChange} 
+                removeHandler={this.removeUser} 
+                alternateHandler={this.alternateremoveUser} 
+                error={this.state.error}/>
 
+            </Segment>
             {/* <pre>Load these users from routes.js: <br/>{JSON.stringify({userList}, null, 2)}</pre> */}
 
           </Container>
@@ -324,7 +388,11 @@ function SubForms(props) {
                 <Modal.Header>Select New Role</Modal.Header>
                 <Modal.Content>
                   <Form onSubmit={(event) => props.roleHandler(userId._id)}>
-                    <Form.Select fluid name="changeRole" options={options} onChange={props.dropboxHandler}/>
+                    <Form.Select fluid 
+                      name="changeRole" 
+                      options={options} 
+                      onChange={props.dropboxHandler}
+                      />
                     <Button color="blue" type="submit">
                       Submit
                     </Button>
@@ -350,7 +418,11 @@ function SubForms(props) {
                 <Modal.Header>Enter New Password</Modal.Header>
                 <Modal.Content>
                   <Form onSubmit={(event) => props.passwordHandler(event,userId._id)}>
-                    <Form.Input type="password" name="changePassword" fluid />
+                    <Form.Input 
+                      type="password" 
+                      name="changePassword" 
+                      fluid 
+                      />
                     <Button color="blue" type="submit">
                       Submit
                     </Button>

@@ -20,13 +20,21 @@ class CreateUserForm extends Component {
       message: "Loading..."
     }
   }
+
+ /* Updating Error state
+  *
+  * this function will be called to edit the error message
+  * 
+  */
   setError (msg) {
-    this.setState({error: msg})
+    this.setState({error: msg});
   }
 
   componentDidMount() {
     const token = localStorage.getItem('token');
-    const response =  fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
+
+    //Obtains and stores currently login user
+    fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -36,16 +44,25 @@ class CreateUserForm extends Component {
     .then((response) => {
       console.log(response)
       this.setState({ thisuser: response })
+      //checks user permission
       if (!(this.state.thisuser.role === "admin")){
-        this.setState({message: "You do not have permission to access this page."})
+        this.setState({message: "You do not have permission to access this page."});
         //console.log(this.state.message)
         }
     });
   }
  
+  /* Creates User
+  *
+  * based on the user inputs, the data will be sent 
+  * to the database using an API POST fetch requst.
+  * Based on the database resposne to the request,
+  * it will update the error message.
+  * 
+  */
   async createUser(event){
-    
     const token = localStorage.getItem('token');
+
     if (token) {
       const response = await fetch('http://'+ Data.EndpointAPIURL +'/api/users/create', {
         method: 'POST',
@@ -64,23 +81,23 @@ class CreateUserForm extends Component {
     const msg = await response.json();
     if(response.ok){
       console.log("okay");
-      //document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode("successfully added"));
-
       //window.location.reload(); 
       this.setError('Successfully added user');
     } else{
       console.log("FAILED")
       //window.location.reload(); 
       this.setError(`Failed to create user: ${msg.error[0].msg} for ${msg.error[0].param}`);
-      console.log(msg);
-      //document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode("Failed to add"));
-
+      //console.log(msg);
       }
     }
   }
 
-//handleChange = (event, {role, value}) => this.setState({submittedRole: value})
-
+  /* Handling Dropbox selection
+  *
+  * Function used to store the user selected role
+  * into a state.
+  * 
+  */
   handleChange = async (e) => {
     var selectedRole = e.target.firstChild.innerText;
     //console.log(selectedRole)
@@ -111,14 +128,32 @@ class CreateUserForm extends Component {
 
             <Segment padded="very">
               <Form onSubmit={(event) => this.createUser(event)}>
-                <Form.Input name='name' label='Name' placeholder="First and Last Name" />
-                <Form.Select name='role' label='Role' options={options} placeholder="Select Role" onChange={this.handleChange} />
-              
-                <Form.Input name='email' label='Email' type="email" placeholder="Email address" />
-                <Form.Input name='password' label='Password' type="password" placeholder="Password" />
+                <Form.Input 
+                  name='name' 
+                  label='Name'  
+                  placeholder="First and Last Name" 
+                  />
+                <Form.Select 
+                  name='role' l
+                  abel='Role' 
+                  options={options} 
+                  placeholder="Select Role" 
+                  onChange={this.handleChange}
+                   />
+                <Form.Input 
+                  name='email' 
+                  label='Email' 
+                  type="email" 
+                  placeholder="Email address" 
+                  />
+                <Form.Input 
+                  name='password' 
+                  label='Password' 
+                  type="password" 
+                  placeholder="Password" 
+                  />
 
                 <Form.Button>Submit</Form.Button>
-
               </Form>
               {this.state.error && <Message error>{this.state.error}</Message>}
             </Segment>
@@ -129,7 +164,6 @@ class CreateUserForm extends Component {
     } else {
       return (
         <div className="mainPane">
-
           <div className="topBar pane">
             <span className="title">Create User</span>
             <Weather />

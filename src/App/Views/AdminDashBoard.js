@@ -17,6 +17,8 @@ class AdminDashboardScreen extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem('token');
+
+    // Obtaining and store train data from back end and storing it into a state
     fetch('http://' + Data.EndpointAPIURL + '/api/trains', {
       headers: {
       method: 'GET',
@@ -30,11 +32,11 @@ class AdminDashboardScreen extends Component {
     .then((response) => {
       //console.log(response)
       this.setState({ items: response.trains })
-    })
+      });
     //.catch(console.log)
 
-    
-    const response =  fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
+    // Obtaining currently login user data from backend and storing it into a state
+    fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
       method: 'GET',
       headers: {
           'Authorization': `Bearer ${token}`
@@ -44,17 +46,17 @@ class AdminDashboardScreen extends Component {
       .then((response) => {
         //console.log(response)
         this.setState({ thisuser: response })
+        // once the user data has been obtain the user role will be check 
         if (!(this.state.thisuser.role === "operator" || this.state.thisuser.role === "admin")){
           this.setState({message: "You do not have permission to access this page."})
+          //if the user has no role they will be redirected to login and have their token removed
           if (localStorage.getItem('token')) {
             localStorage.removeItem('token');
             window.location = '/login';
           }
         }
-          
       });
-      
-      }
+  }
 
 
   render(){
@@ -91,7 +93,6 @@ class AdminDashboardScreen extends Component {
     }else {
       return (
         <div className="mainPane">
-
           <div className="topBar pane">
             <span className="title">Create User</span>
             <Weather />

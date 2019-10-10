@@ -4,11 +4,6 @@ import {Link} from 'react-router-dom';
 import {Container, Grid, Header, Button, Icon, Placeholder, Segment} from 'semantic-ui-react';
 import Weather from '../component/Weather';
 
-let data = 'Jon Doe';
-let trainData = '001';
-let UserStatus = 'Y';
-let UserRole = 'Driver'
-
  class AdminUserScreen extends Component {
 
   constructor(props){
@@ -20,22 +15,25 @@ let UserRole = 'Driver'
     }
   }
 
- 
-
   componentDidMount() {
+    // Obtains and stores the list of users from the backend
     const token = localStorage.getItem('token');
     fetch('http://' + Data.EndpointAPIURL + '/api/users', {
       headers: {
         method: 'GET',
-        'Authorization': `Bearer ${token}`}})
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then( res => res.json())
     .then((response) => {
       //console.log(response)
-      this.setState({ items: response.users })})
-    //.catch(console.log)
-    //console.log(items)
+      this.setState({ items: response.users });
+    });
+      //.catch(console.log)
+      //console.log(items)
 
-     const response =  fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
+      // Obtains and stores data on currently login user
+      fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
       method: 'GET',
       headers: {
           'Authorization': `Bearer ${token}`
@@ -46,12 +44,10 @@ let UserRole = 'Driver'
         //console.log(response)
         this.setState({ thisuser: response })
         if (!(this.state.thisuser.role === "admin")){
-        this.setState({message: "You do not have permission to access this page."})
-        //console.log(this.state.message)
+          this.setState({message: "You do not have permission to access this page."});
+          //console.log(this.state.message)
         }
       });
-      
-
   }
 
   async getMe () {
@@ -78,12 +74,9 @@ let UserRole = 'Driver'
   render() {
     const{items, thisuser, message} = this.state;
 
-    //console.log(thisuser)
-    //console.log(thisuser.role === "admin")
     if (thisuser.role === "admin") {
       return (
         <div className="mainPane">
-
           <div className="topBar pane">
             <span className="title">Users</span>
             <Weather />
@@ -108,9 +101,7 @@ let UserRole = 'Driver'
                 </Segment>
               ))}
               </div>
-
-
-                <Button onClick={() => this.getMe()}>Get My Profile</Button>
+              <Button onClick={() => this.getMe()}>Get My Profile</Button>
           </Container>
 
         </div>

@@ -8,9 +8,7 @@ let UserStatus = 'Y';
 //let UserRole = 'Driver'
 
 class AdminTrainScreen extends Component {
-    //state = { activeItem: 'home' }
 
-    //handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
     render() {
         //const { activeItem } = this.state

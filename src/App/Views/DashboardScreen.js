@@ -18,20 +18,34 @@ class DashBoardScreen extends Component{
     socket = io("http://trains.benfranzi.com:8081", {path: '/ws'});
 
     componentDidMount() {
+      // Turns on socket connecting to machine learning 
       this.socket.on('train-data', (msg) => {
         this.addData(JSON.parse(msg));
       });
-
+      // Turns on a trial socket connection to the backend
       this.socket.on('connection', () => {
         console.log('connected');
         this.socket.send("hello", "world");
       });
     }
     
+    /*  Adding machine vision data
+    * 
+    * this function adds the each data recieved from the socket
+    * to a list of data recived
+    * 
+    * 
+    */ 
     addData(obj) {
       this.setState({data: [obj, ...this.state.data]});
     }
 
+    /*Display data on status
+    *
+    * Based 
+    * 
+    * 
+    */ 
     displayStatus() {
       if (this.state.data.length > 0) {
         var lastLogic = this.state.data[0]["logic"];
@@ -40,6 +54,8 @@ class DashBoardScreen extends Component{
             return "Decelerating";
           case "CONTINUE":
             return "Continuing";
+          case "STOP":
+            return "Stopped";
           default:
             return "Unknown";
         }
@@ -48,9 +64,20 @@ class DashBoardScreen extends Component{
       }
     }
 
+    
+    /* Display last detected object
+    *
+    *
+    * 
+    * 
+    */ 
     displayDetection() {
       if (this.state.data.length > 0) {
-        var lastItem = this.state.data[0]["data"]["detected"];
+        var lastItem = "n/a"
+        if (!this.state.data[0].data.override) {
+          lastItem = this.state.data[0]["data"].join(", ");
+        }
+        
         switch(lastItem) {
           default:
             return lastItem;
@@ -60,6 +87,12 @@ class DashBoardScreen extends Component{
       }
     }
 
+    /* Manual override
+    *
+    * Event handler to display user overides clicked
+    * 
+    * 
+    */ 
     sendOverride(e) {
       var override = e.target.value;
       this.socket.emit(override);
@@ -77,6 +110,12 @@ class DashBoardScreen extends Component{
       });
     }
 
+    /* Display Override 
+    *
+    * dispalys the user override clicked, and the time at which it was clicked
+    * 
+    * 
+    */ 
     displayOverrideMessage(override) {
       if (this.state.lastOverride !== "") {
         var timeDiff = (Date.now() - this.state.lastOverrideTime) / 1000;
@@ -197,14 +236,15 @@ class DashBoardScreen extends Component{
               <div className="view right">
               
                 <div className="snapshot">
-                  <img />
+                  {this.state.data.length > 0 ? <img src={this.state.data[0].url} /> : <img />}
+                  
                 </div>
                 <div className="history" id="history">
                   <Table basic="very">
                     {this.state.data.map(item =>
                       <Table.Row className={item.class}>
-                        <Table.Cell>{item.data.epoch}</Table.Cell>
-                        <Table.Cell>{item.data.detected ? `Detected: ${item.data.detected}` : `Override: ${item.data.override}`}</Table.Cell>
+                        <Table.Cell>{item.epoch}</Table.Cell>
+                        <Table.Cell>{!!item.data.override ? `Override: ${item.data.override}` : `Detected: ${item.data.join(', ')}`}</Table.Cell>
                         <Table.Cell>{item.logic}</Table.Cell>
                       </Table.Row>
                     )}

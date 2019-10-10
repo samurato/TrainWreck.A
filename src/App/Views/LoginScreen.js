@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Form, Grid, Header, Image, Segment, Message, Container} from 'semantic-ui-react';
 import logo from '../component/logo.svg';
-import {userInfo} from 'os';
+//import {userInfo} from 'os';
 import * as Data from '../data.js'; // for endpoint URLs
 
 class LoginScreen extends React.Component {
@@ -18,10 +18,23 @@ class LoginScreen extends React.Component {
     }
   }
 
+  /* Updating Error state
+  *
+  * this function will be called to update the error message
+  * 
+  */
   setError (msg) {
     this.setState({error: msg})
   }
 
+  /*Login 
+  *
+  * Based on user input, it will be sent to the database
+  * as a POST API request. On success it will lead the 
+  * user to the dashboard. On fail it will update the error
+  * state and give according feedback
+  * 
+  */
   async login (email, password) {
     var plaintextPassword = password;
 
@@ -42,8 +55,8 @@ class LoginScreen extends React.Component {
       
       localStorage.setItem('token', msg.token);
       this.setError(null);
-      
       window.location = '/';
+
     } else {
       console.log('Failed to authenticate', await msg);
       this.setError(`Failed to authenticate: ${msg.error}`);
