@@ -31,7 +31,7 @@ let UserRole = 'Driver'
     .then((response) => {
       //console.log(response)
       this.setState({ items: response.users })})
-    .catch(console.log)
+    //.catch(console.log)
     //console.log(items)
 
      const response =  fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 

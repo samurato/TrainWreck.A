@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {Container, Button, Icon, Segment, Grid, Divider, Form, Header} from 'semantic-ui-react';
+import {Container, Button, Icon, Segment, Grid, Divider, Form,Message, Header} from 'semantic-ui-react';
 import Weather from '../component/Weather';
 import * as Data from '../data.js';
 import { timingSafeEqual } from 'crypto';
@@ -15,8 +15,12 @@ class CreateUserForm extends Component {
     super(props);
     this.state = { 
       thisuser: [],
-      submittedRole: ''
+      submittedRole: '',
+      error: null
     }
+  }
+  setError (msg) {
+    this.setState({error: msg})
   }
 
   componentDidMount() {
@@ -57,12 +61,13 @@ class CreateUserForm extends Component {
       console.log("okay");
       //document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode("successfully added"));
 
-      window.location.reload(); 
-      
+      //window.location.reload(); 
+      this.setError('Successfully added user');
     } else{
       console.log("FAILED")
-      window.location.reload(); 
-
+      //window.location.reload(); 
+      this.setError(`Failed to create user: ${msg.error[0].msg} for ${msg.error[0].param}`);
+      console.log(msg);
       //document.getElementsByClassName("mainPane")[0].appendChild(document.createTextNode("Failed to add"));
 
       }
@@ -109,9 +114,8 @@ class CreateUserForm extends Component {
 
                 <Form.Button>Submit</Form.Button>
 
-                ((add status message here))
-
               </Form>
+              {this.state.error && <Message error>{this.state.error}</Message>}
             </Segment>
           </Container>
 

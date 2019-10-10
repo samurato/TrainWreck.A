@@ -24,10 +24,10 @@ class AdminDashboardScreen extends Component {
     })
     .then( res => res.json())
     .then((response) => {
-      console.log(response)
+      //console.log(response)
       this.setState({ items: response.trains })
     })
-    .catch(console.log)
+    //.catch(console.log)
 
     
     const response =  fetch('http://' + Data.EndpointAPIURL + '/api/users/me', { 
@@ -38,7 +38,7 @@ class AdminDashboardScreen extends Component {
       })
       .then( res => res.json())
       .then((response) => {
-        console.log(response)
+        //console.log(response)
         this.setState({ thisuser: response })
       });
       

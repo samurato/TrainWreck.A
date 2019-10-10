@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {Container, Button, Icon, Segment, Grid, Divider, Form, Dropdown, Modal, Header} from 'semantic-ui-react';
+import {Container, Button, Icon, Segment, Grid, Divider, Form, Dropdown, Modal,Message, Header} from 'semantic-ui-react';
 import Weather from '../component/Weather';
 import * as Data from '../data.js';
 
@@ -19,26 +19,30 @@ class ModifyUserForm extends Component {
       modalOpen: false,
       userList: [],
       thisuser: [],
-      submittedRole: ""
+      submittedRole: "",
+      error: null
     }
   }
-  
-  selectNewUser = (e) => {
+
+  selectNewUser = async (e) => {
     //this.state.userList.find()
-    var matchUser = this.state.userList.find((element) => {
+     var matchUser = this.state.userList.find((element) => {
       return element.name === e.target.firstChild.innerText;
     })
     //console.log(matchUser._id)
-    this.setState({name: e.target.firstChild.innerText, id: matchUser});
+    await this.setState({name: e.target.firstChild.innerText, id: matchUser});
     //console.log(this.state)
 
 
   } 
 
   closeModal = () => this.setState({ modalOpen: false })
-  
 
-  async modifyName(event,id){
+  setError (msg) {
+    this.setState({error: msg})
+  }
+
+  modifyName = async (event,id) => {
     //console.log(event.target.changeName.value)
     const token = localStorage.getItem('token');
     //const token = "test"
@@ -56,12 +60,14 @@ class ModifyUserForm extends Component {
 
     const msg = await response.json();
     if(response.ok){
-      console.log("okay");
-      window.location.reload(); 
+      console.log(msg);
+      this.setError('Successfully changed name');
+      //window.location.reload(); 
       
     } else{ 
-      console.log("FAILED")
-      window.location.reload();
+      //console.log(msg)
+      this.setError(`Failed to change password ${msg[0].msg}`);
+      //window.location.reload();
       }
     }
   }
@@ -93,16 +99,18 @@ class ModifyUserForm extends Component {
     const msg = await response.json();
     if(response.ok){
       console.log("okay");
-      window.location.reload(); 
+      this.setError('Successfully changed role');
+      //window.location.reload(); 
       
     } else{ 
       console.log("FAILED")
-      window.location.reload();
+      this.setError('Invalid role selection');
+      //window.location.reload();
       }
     }
   }
 
-  async modifyPassword(event,id){
+  modifyPassword = async (event,id)=>{
     var plaintextPassword = event.target.changePassword.value
     //console.log(event.target)
     const token = localStorage.getItem('token');
@@ -122,12 +130,16 @@ class ModifyUserForm extends Component {
     const msg = await response.json();
     if(response.ok){
       console.log("okay");
-      window.location.reload(); 
+      //window.location.reload(); 
+      this.setError('Successfully changed password');
       
     } else{ 
-      console.log("FAILED")
-      window.location.reload();
+      console.log(msg)
+      //window.location.reload();
       //password has to be longer than 8 characters
+      this.setError(`failed to change password ${msg.error[0].msg}`);
+      //window.location.reload();
+
       }
     }
   }
@@ -148,11 +160,13 @@ class ModifyUserForm extends Component {
     const msg = await response.json();
     if(response.ok){
       console.log("okay");
-      window.location.reload(); 
+      //window.location.reload(); 
+      this.setError('Successfully removed user');
       
     } else{ 
       console.log("FAILED")
-      window.location.reload();
+      //window.location.reload()
+      this.setError('Failed to removed user')
       }
     }
   }
@@ -233,7 +247,7 @@ class ModifyUserForm extends Component {
                 </Form.Field> */}
               </Form>
 
-              <SubForms userId={id} userName={name} nameHandler={this.modifyName} passwordHandler={this.modifyPassword} roleHandler={this.modifyRole} dropboxHandler={this.handleChange} removeHandler={this.removeUser} alternateHandler={this.alternateremoveUser}/>
+              <SubForms userId={id} userName={name} nameHandler={this.modifyName} passwordHandler={this.modifyPassword} roleHandler={this.modifyRole} dropboxHandler={this.handleChange} removeHandler={this.removeUser} alternateHandler={this.alternateremoveUser} error={this.state.error}/>
             </Segment>
 
             {/* <pre>Load these users from routes.js: <br/>{JSON.stringify({userList}, null, 2)}</pre> */}
@@ -287,6 +301,7 @@ function SubForms(props) {
                       Submit
                     </Button>
                   </Form>
+                  {props.error && <Message error>{props.error}</Message>}
                 </Modal.Content>
                 <Modal.Actions>
                 </Modal.Actions>
@@ -309,6 +324,7 @@ function SubForms(props) {
                       Submit
                     </Button>
                   </Form>
+                  {props.error && <Message error>{props.error}</Message>}
                 </Modal.Content>
                 <Modal.Actions>
                 </Modal.Actions>
@@ -334,6 +350,7 @@ function SubForms(props) {
                       Submit
                     </Button>
                   </Form>
+                  {props.error && <Message error>{props.error}</Message>}
                 </Modal.Content>
                 <Modal.Actions>
                 </Modal.Actions>
@@ -386,7 +403,9 @@ function SubForms(props) {
 
           </Grid.Row>
         </Grid>
+        {props.error && <Message error>{props.error}</Message>}
       </Segment>
+      
     
     );
   }
