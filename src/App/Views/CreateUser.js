@@ -134,8 +134,8 @@ class CreateUserForm extends Component {
                   placeholder="First and Last Name" 
                   />
                 <Form.Select 
-                  name='role' l
-                  abel='Role' 
+                  name='role'
+                  label='Role' 
                   options={options} 
                   placeholder="Select Role" 
                   onChange={this.handleChange}

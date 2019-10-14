@@ -101,7 +101,7 @@ import Weather from '../component/Weather';
                 </Segment>
               ))}
               </div>
-              <Button onClick={() => this.getMe()}>Get My Profile</Button>
+              {/* <Button onClick={() => this.getMe()}>Get My Profile</Button> */}
           </Container>
 
         </div>
