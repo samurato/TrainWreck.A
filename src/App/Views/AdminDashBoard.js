@@ -22,10 +22,7 @@ class AdminDashboardScreen extends Component {
     fetch('http://' + Data.EndpointAPIURL + '/api/trains', {
       headers: {
       method: 'GET',
-      mode: 'no-cors',
-      withCredentials: true,
-      credentials: 'include',
-      'Authorization': localStorage.getItem('token')
+      'Authorization': `Bearer ${token}`
       }
     })
     .then( res => res.json())

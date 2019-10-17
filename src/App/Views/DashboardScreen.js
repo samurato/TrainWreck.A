@@ -12,12 +12,30 @@ class DashBoardScreen extends Component{
         data: [],
         lastOverride: "",
         lastOverrideTime: 0,
+        Trains: [],
+        loading: true
       };
     }
 
     socket = io("http://trains.benfranzi.com:8081", {path: '/ws'});
 
     componentDidMount() {
+      this.setState({ loading: true })
+
+      const token = localStorage.getItem('token');
+      // Obtaining and store train data from back end and storing it into a state
+      fetch('http://' + Data.EndpointAPIURL + '/api/trains', {
+        headers: {
+        method: 'GET',
+        'Authorization': `Bearer ${token}`
+        }
+      })
+      .then( res => res.json())
+      .then((response) => {
+      //console.log(response)
+      this.setState({ Trains: response.trains, loading: false })
+      });
+
       // Turns on socket connecting to machine learning 
       this.socket.on('train-data', (msg) => {
         this.addData(JSON.parse(msg));
@@ -42,7 +60,7 @@ class DashBoardScreen extends Component{
 
     /*Display data on status
     *
-    * Based 
+    * 
     * 
     * 
     */ 
@@ -140,124 +158,149 @@ class DashBoardScreen extends Component{
     }
 
     render(){
+      const{Trains,loading} = this.state;
       let currentTrainID = window.location.hash.substr(1);
       //let currenTrainInfo = items.map(item => item[currentTrainID];
-      let currentTrainInfo = Data.TrainsData[currentTrainID];
+      let currentTrainInfo = Trains[currentTrainID];
+     
+      if (!loading) {
 
-      return(
+        return(
+          <div className="mainPane">
+
+            <div className="topBar pane">
+              <span className="title">Dashboard</span>
+              <Weather />
+            </div>
+
+            <div className="DashboardScreen">
+              
+                <div className="view left">
+                
+                  <div className="nameplate" style={{"background-color":Data.LineColours[currentTrainInfo.route_id]}}>
+                    <h1>{currentTrainInfo.train_name}</h1>
+                    <h4>
+                      <Icon name="road" />
+                      {currentTrainInfo.route_name}
+                    </h4>
+                  </div>
+
+                  <div className="status">
+                    <Table celled>
+                      <Table.Header>
+                        <Table.HeaderCell width={9}>Route</Table.HeaderCell>
+                        <Table.HeaderCell>{currentTrainInfo.route_id}</Table.HeaderCell>
+                      </Table.Header>
+                      
+                      <Table.Row>
+                        <Table.Cell>Number of Carriages</Table.Cell>
+                        <Table.Cell>{currentTrainInfo.number_carriages}</Table.Cell>
+                      </Table.Row>
+
+                      <Table.Row>
+                        <Table.Cell>Weather</Table.Cell>
+                        <Table.Cell>{currentTrainInfo.weather}</Table.Cell>
+                      </Table.Row>
+                      
+                      <Table.Row>
+                        <Table.Cell>Status</Table.Cell>
+                        <Table.Cell>{this.displayStatus()}</Table.Cell>
+                      </Table.Row>
+                      
+                      <Table.Row>
+                        <Table.Cell>Detection</Table.Cell>
+                        <Table.Cell>{this.displayDetection()}</Table.Cell>
+                      </Table.Row>
+                      
+                      <Table.Row>
+                        <Table.Cell>Last Override</Table.Cell>
+                        <Table.Cell>{this.state.lastOverride}</Table.Cell>
+                      </Table.Row>
+                    </Table>
+
+                    {this.displayOverrideMessage(this.state.lastOverride)}
+                  </div>
+
+                  <Segment color="purple" className="overrides">
+                    <Header>Manual overrides:</Header>
+
+                    <Button
+                      color="yellow"
+                      value="Accelerate"
+                      onClick={this.sendOverride.bind(this)}
+                    >
+                      Accelerate
+                    </Button>
+                    
+                    <Button 
+                      color="teal"
+                      value="Decelerate"
+                      onClick={this.sendOverride.bind(this)}
+                    >
+                      Decelerate
+                    </Button>
+                    
+                    <Button
+                      color="orange"
+                      value="Stop"
+                      onClick={this.sendOverride.bind(this)}
+                    >
+                      Stop
+                    </Button>
+
+                    <Button 
+                      color="green"
+                      value="Continue"
+                      onClick={this.sendOverride.bind(this)}
+                    >
+                      Continue
+                    </Button>
+
+                  </Segment>
+
+                </div>
+                <div className="view right">
+                
+                  <div className="snapshot">
+                    {this.state.data.length > 0 ? <img src={this.state.data[0].url} /> : <img />}
+                    
+                  </div>
+                  <div className="history" id="history">
+                    <Table basic="very">
+                      {this.state.data.map(item =>
+                        <Table.Row className={item.class}>
+                          <Table.Cell>{item.epoch}</Table.Cell>
+                          <Table.Cell>{!!item.data.override ? `Override: ${item.data.override}` : `Detected: ${item.data.join(', ')}`}</Table.Cell>
+                          <Table.Cell>{item.logic}</Table.Cell>
+                        </Table.Row>
+                      )}
+                    </Table>
+                  </div>
+
+                </div>
+
+            </div>
+
+          </div>
+        );
+      }
+    else {
+      return (
         <div className="mainPane">
-
           <div className="topBar pane">
-            <span className="title">Dashboard</span>
+            <span className="title">Create User</span>
             <Weather />
           </div>
 
-          <div className="DashboardScreen">
-            
-              <div className="view left">
-              
-                <div className="nameplate" style={{"background-color":Data.LineColours[currentTrainInfo.line]}}>
-                  <h1>{currentTrainInfo.name}</h1>
-                  <h4>
-                    <Icon name="road" />
-                    {currentTrainInfo.route}
-                  </h4>
-                </div>
-
-                <div className="status">
-                  <Table celled>
-                    <Table.Header>
-                      <Table.HeaderCell width={9}>Route</Table.HeaderCell>
-                      <Table.HeaderCell>{currentTrainInfo.line}</Table.HeaderCell>
-                    </Table.Header>
-                    
-                    <Table.Row>
-                      <Table.Cell>Weather</Table.Cell>
-                      <Table.Cell>{currentTrainInfo.weather}</Table.Cell>
-                    </Table.Row>
-                    
-                    <Table.Row>
-                      <Table.Cell>Status</Table.Cell>
-                      <Table.Cell>{this.displayStatus()}</Table.Cell>
-                    </Table.Row>
-                    
-                    <Table.Row>
-                      <Table.Cell>Detection</Table.Cell>
-                      <Table.Cell>{this.displayDetection()}</Table.Cell>
-                    </Table.Row>
-                    
-                    <Table.Row>
-                      <Table.Cell>Last Override</Table.Cell>
-                      <Table.Cell>{this.state.lastOverride}</Table.Cell>
-                    </Table.Row>
-                  </Table>
-
-                  {this.displayOverrideMessage(this.state.lastOverride)}
-                </div>
-
-                <Segment color="purple" className="overrides">
-                  <Header>Manual overrides:</Header>
-
-                  <Button
-                    color="yellow"
-                    value="Accelerate"
-                    onClick={this.sendOverride.bind(this)}
-                  >
-                    Accelerate
-                  </Button>
-                  
-                  <Button 
-                    color="teal"
-                    value="Decelerate"
-                    onClick={this.sendOverride.bind(this)}
-                  >
-                    Decelerate
-                  </Button>
-                  
-                  <Button
-                    color="orange"
-                    value="Stop"
-                    onClick={this.sendOverride.bind(this)}
-                  >
-                    Stop
-                  </Button>
-
-                  <Button 
-                    color="green"
-                    value="Continue"
-                    onClick={this.sendOverride.bind(this)}
-                  >
-                    Continue
-                  </Button>
-
-                </Segment>
-
-              </div>
-              <div className="view right">
-              
-                <div className="snapshot">
-                  {this.state.data.length > 0 ? <img src={this.state.data[0].url} /> : <img />}
-                  
-                </div>
-                <div className="history" id="history">
-                  <Table basic="very">
-                    {this.state.data.map(item =>
-                      <Table.Row className={item.class}>
-                        <Table.Cell>{item.epoch}</Table.Cell>
-                        <Table.Cell>{!!item.data.override ? `Override: ${item.data.override}` : `Detected: ${item.data.join(', ')}`}</Table.Cell>
-                        <Table.Cell>{item.logic}</Table.Cell>
-                      </Table.Row>
-                    )}
-                  </Table>
-                </div>
-
-              </div>
-
-          </div>
+          <Container>
+           {"Loading..."}
+          </Container>
 
         </div>
-      );
+      )
     }
+  }
+
 }
 
 
